@@ -160,7 +160,7 @@ const Login = () => {
                         className="ms-3"
                         style={styles.button}
                       >
-                        Google
+                        Continue with Google
                       </Button>
 
                     </Container>
