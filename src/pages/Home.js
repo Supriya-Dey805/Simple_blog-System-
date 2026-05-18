@@ -7,10 +7,6 @@ const Home = () => {
 
   const [posts, setPosts] = useState([]);
 
-  useEffect(() => {
-    fetchPosts();
-  }, []);
-
   const fetchPosts = async () => {
     try {
       const res = await API.get("/posts");
@@ -20,12 +16,20 @@ const Home = () => {
     }
   };
 
+  useEffect(() => {
+    fetchPosts();
+  }, []);
+
   return(
     <Base>
       <h1>All Blog Posts</h1>
 
       {posts.map(post => (
-        <PostCard key={post._id} post={post}/>
+        <PostCard 
+          key={post._id} 
+          post={post} 
+          refreshPosts={fetchPosts}
+        />
       ))}
 
     </Base>

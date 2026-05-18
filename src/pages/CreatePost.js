@@ -9,6 +9,7 @@ const CreatePost = () => {
     content: "",
     category: "",
     tags: "",
+    readingTime: "",
     isFeatured: false
   });
 
@@ -26,19 +27,19 @@ const CreatePost = () => {
     try {
       const postData = {
         ...formData,
-        tags: formData.tags.split(",") // convert to array
+        tags: formData.tags.split(",") // string → array
       };
 
       await API.post("/posts", postData);
 
       alert("Post Created Successfully");
-      
-      // clear form
+
       setFormData({
         title: "",
         content: "",
         category: "",
         tags: "",
+        readingTime: "",
         isFeatured: false
       });
 
@@ -88,6 +89,15 @@ const CreatePost = () => {
           name="tags"
           placeholder="Tags separated by comma (react,node)"
           value={formData.tags}
+          onChange={handleChange}
+        />
+        <br/><br/>
+
+        <input
+          type="text"
+          name="readingTime"
+          placeholder="Reading time (ex: 5 min)"
+          value={formData.readingTime}
           onChange={handleChange}
         />
         <br/><br/>

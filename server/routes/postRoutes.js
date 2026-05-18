@@ -17,4 +17,16 @@ router.get("/search", searchPosts);
 router.get("/category/:category", getPostsByCategory);
 router.put("/:id/like", likePost);
 
+// LIKE POST
+router.put("/posts/like/:id", async (req, res) => {
+  try {
+    const post = await Post.findById(req.params.id);
+    post.likes = post.likes + 1;
+    const updatedPost = await post.save();
+    res.json(updatedPost);
+  } catch (err) {
+    res.status(500).json(err);
+  }
+});
+
 module.exports = router;

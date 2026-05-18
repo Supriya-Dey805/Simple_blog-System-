@@ -1,28 +1,41 @@
-import React from "react";
-import API from "../services/api";
+import { deletePost, likePost } from "../services/api";
+import { useNavigate } from "react-router-dom";
 
-const PostCard = ({ post }) => {
+const PostCard = ({ post, refreshPosts }) => {
 
-  const likePost = async () => {
-    await API.put(`/posts/${post._id}/like`);
-    window.location.reload();
+  const navigate = useNavigate();
+
+  const deleteThisPost = async () => {
+    await deletePost(post._id);
+    refreshPosts();
+  };
+
+  const likeThisPost = async () => {
+    await likePost(post._id);
+    refreshPosts();
+  };
+
+  const goToEditPage = () => {
+    navigate(`/edit-post/${post._id}`);
   };
 
   return (
-    <div style={{
-      border: "1px solid #ddd",
-      padding: "15px",
-      margin: "15px",
-      borderRadius: "10px"
-    }}>
+    <div style={{border:"1px solid gray", padding:"15px", margin:"15px"}}>
       <h2>{post.title}</h2>
-      <p>{post.content.substring(0,120)}...</p>
-      <p><b>Category:</b> {post.category}</p>
-      <p><b>Reading time:</b> {post.readingTime}</p>
+      <p>{post.content}</p>
+      <small>By {post.author}</small>
 
-      <button onClick={likePost}>
-        ❤️ {post.likes}
-      </button>
+      <h4>❤️ Likes: {post.likes}</h4>
+
+      <p><b>Category:</b> {post.category}</p>
+<p><b>Reading Time:</b> {post.readingTime}</p>
+<p><b>Tags:</b> {post.tags?.join(", ")}</p>
+
+{post.isFeatured && <h3>⭐ Featured</h3>}
+
+      <button onClick={likeThisPost}>Like</button>
+      <button onClick={goToEditPage}>Edit</button>
+      <button onClick={deleteThisPost}>Delete</button>
     </div>
   );
 };

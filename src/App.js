@@ -10,6 +10,8 @@ import Signup from "./pages/Signup";
 import About from "./pages/About";
 import Services from "./pages/Services";
 import CreatePost from "./pages/CreatePost";
+import EditPost from "./pages/EditPost";
+
 
 function App () {
   return (
@@ -21,6 +23,7 @@ function App () {
       <Route path="/about" element={<About />} /> 
       <Route path="/services" element={<Services />} />
       <Route path="/create" element={<CreatePost />} />
+      <Route path="/edit-post/:id" element={<EditPost />} />
     </Routes>
   </BrowserRouter>
   );
