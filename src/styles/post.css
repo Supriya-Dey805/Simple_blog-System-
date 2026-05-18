@@ -1,0 +1,49 @@
+.post-details {
+  max-width: 760px;
+  margin: 0 auto;
+  padding: 2rem 0;
+}
+
+.btn-back {
+  background: none;
+  border: none;
+  color: #666;
+  cursor: pointer;
+  margin-bottom: 2rem;
+}
+
+.post-header {
+  margin-bottom: 2rem;
+}
+.post-header h1 {
+  font-size: 2.5rem;
+  line-height: 1.2;
+  margin: 0.5rem 0 1rem 0;
+}
+.post-meta {
+  display: flex;
+  justify-content: space-between;
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.post-actions button {
+  background: none;
+  border: none;
+  margin-left: 1rem;
+  cursor: pointer;
+  font-weight: bold;
+}
+.btn-edit { color: var(--primary); }
+.btn-delete { color: #df4759; }
+
+.post-content p {
+  font-size: 1.15rem;
+  margin-bottom: 1.5rem;
+  color: #222;
+}
+.post-footer {
+  margin-top: 3rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border);
+}
