@@ -51,3 +51,32 @@ exports.likePost = async (req, res) => {
   await post.save();
   res.json(post);
 };
+
+exports.searchPosts = async (req, res) => {
+  try {
+    const keyword = req.query.keyword;
+
+    const posts = await Post.find({
+      $or: [
+        { title: { $regex: keyword, $options: "i" } },
+        { tags: { $regex: keyword, $options: "i" } }
+      ]
+    });
+
+    res.json(posts);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+exports.getPostsByCategory = async (req, res) => {
+  try {
+    const posts = await Post.find({
+      category: req.params.category
+    });
+
+    res.json(posts);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};

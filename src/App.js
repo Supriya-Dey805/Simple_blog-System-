@@ -9,6 +9,8 @@ import LoginForm from "./pages/Login";
 import Signup from "./pages/Signup";
 import About from "./pages/About";
 import Services from "./pages/Services";
+import CreatePost from "./pages/CreatePost";
+
 function App () {
   return (
     <BrowserRouter>
@@ -18,6 +20,7 @@ function App () {
       <Route path="/signup" element={<Signup />} />
       <Route path="/about" element={<About />} /> 
       <Route path="/services" element={<Services />} />
+      <Route path="/create" element={<CreatePost />} />
     </Routes>
   </BrowserRouter>
   );
