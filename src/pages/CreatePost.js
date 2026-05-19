@@ -1,21 +1,147 @@
-import React, { useContext } from 'react';
-import { PostContext } from '../context/PostContext';
-import PostForm from '../components/PostForm';
+import React, { useState } from "react";
 
-const CreatePost = ({ setPage }) => {
-  const { addPost } = useContext(PostContext);
+import API from "../services/api";
 
-  const handleCreate = async (data) => {
-    await addPost(data);
-    setPage('home');
+import Base from "../components/Base";
+
+const CreatePost = () => {
+
+  const [formData, setFormData] = useState({
+    title: "",
+    content: "",
+    category: "",
+    tags: "",
+    readingTime: "",
+    isFeatured: false,
+  });
+
+  const handleChange = (e) => {
+
+    const { name, value, type, checked } = e.target;
+
+    setFormData({
+      ...formData,
+      [name]: type === "checkbox" ? checked : value,
+    });
+  };
+
+  const handleSubmit = async (e) => {
+
+    e.preventDefault();
+
+    try {
+
+      const postData = {
+        ...formData,
+        tags: formData.tags.split(","),
+      };
+
+      await API.post("/posts", postData);
+
+      alert("Post Created Successfully");
+
+      setFormData({
+        title: "",
+        content: "",
+        category: "",
+        tags: "",
+        readingTime: "",
+        isFeatured: false,
+      });
+
+    } catch (error) {
+
+      console.log(error);
+
+      alert("Error creating post");
+    }
   };
 
   return (
-    <div style={{ maxWidth: '700px', margin: '0 auto', padding: '1rem' }}>
-      <h2>Create New Post</h2>
-      <PostForm onSubmit={handleCreate} />
-    </div>
+
+    <Base>
+
+      <h1>Create New Blog Post</h1>
+
+      <form onSubmit={handleSubmit} style={{ maxWidth: "600px" }}>
+
+        <input
+          type="text"
+          name="title"
+          placeholder="Post Title"
+          value={formData.title}
+          onChange={handleChange}
+          required
+        />
+
+        <br /><br />
+
+        <textarea
+          name="content"
+          placeholder="Write content..."
+          rows="6"
+          value={formData.content}
+          onChange={handleChange}
+          required
+        />
+
+        <br /><br />
+
+        <input
+          type="text"
+          name="category"
+          placeholder="Category"
+          value={formData.category}
+          onChange={handleChange}
+        />
+
+        <br /><br />
+
+        <input
+          type="text"
+          name="tags"
+          placeholder="Tags separated by comma"
+          value={formData.tags}
+          onChange={handleChange}
+        />
+
+        <br /><br />
+
+        <input
+          type="text"
+          name="readingTime"
+          placeholder="Reading time (5 min)"
+          value={formData.readingTime}
+          onChange={handleChange}
+        />
+
+        <br /><br />
+
+        <label>
+
+          <input
+            type="checkbox"
+            name="isFeatured"
+            checked={formData.isFeatured}
+            onChange={handleChange}
+          />
+
+          Featured Post
+
+        </label>
+
+        <br /><br />
+
+        <button type="submit">
+          Create Post
+        </button>
+
+      </form>
+
+    </Base>
   );
 };
 
 export default CreatePost;
+
+//814118 

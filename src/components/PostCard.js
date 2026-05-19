@@ -1,21 +1,85 @@
+
 import React from 'react';
 import TagList from './TagList';
 
-const PostCard = ({ post, setPage, setSelectedPostId }) => {
-  const handleCardClick = () => {
-    setSelectedPostId(post.id);
-    setPage('details');
+import { useNavigate } from 'react-router-dom';
+
+import { deletePost, likePost } from '../services/api';
+
+const PostCard = ({ post, refreshPosts }) => {
+
+  const navigate = useNavigate();
+
+  const deleteThisPost = async () => {
+    await deletePost(post._id);
+    refreshPosts();
+  };
+
+  const likeThisPost = async () => {
+    await likePost(post._id);
+    refreshPosts();
+  };
+
+  const goToEditPage = () => {
+    navigate(`/edit-post/${post._id}`);
   };
 
   return (
-    <div className="post-card" onClick={handleCardClick}>
-      <span className="post-category">{post.category}</span>
-      <h3>{post.title}</h3>
-      <p>{post.content.substring(0, 120)}...</p>
+    <div
+      style={{
+        border: '1px solid gray',
+        padding: '15px',
+        margin: '15px'
+      }}
+    >
+
+      <span className="post-category">
+        {post.category}
+      </span>
+
+      <h2>{post.title}</h2>
+
+      <p>
+        {post.content?.substring(0, 120)}...
+      </p>
+
       <div className="post-card-footer">
         <TagList tags={post.tags} />
-        <span className="post-date">{post.date}</span>
+        <span className="post-date">
+          {post.date}
+        </span>
       </div>
+
+      <small>By {post.author}</small>
+
+      <h4>Likes: {post.likes}</h4>
+
+      <p>
+        <b>Category:</b> {post.category}
+      </p>
+
+      <p>
+        <b>Reading Time:</b> {post.readingTime}
+      </p>
+
+      <p>
+        <b>Tags:</b> {post.tags?.join(', ')}
+      </p>
+
+      {post.isFeatured && <h3>★ Featured</h3>}
+
+      <button onClick={likeThisPost}>
+        Like
+      </button>
+
+      <button onClick={goToEditPage}>
+        Edit
+      </button>
+
+      <button onClick={deleteThisPost}>
+        Delete
+      </button>
+
     </div>
   );
 };

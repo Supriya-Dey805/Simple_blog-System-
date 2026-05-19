@@ -3,7 +3,6 @@ import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 
 import { PostContext } from "../context/PostContext";
-import CustomNavbar from "../components/CustomNavbar";
 
 import FeaturedPosts from "../components/FeaturedPosts";
 import SearchBar from "../components/SearchBar";
@@ -41,9 +40,17 @@ const Home = ({ setPage, setSelectedPostId }) => {
 
   return (
     <div className="home-page">
-      <CustomNavbar />
 
-      
+      {/* Login Signup Buttons */}
+      <div className="auth-buttons">
+        <Link to="/login">
+          <button>Login</button>
+        </Link>
+
+        <Link to="/signup">
+          <button>Signup</button>
+        </Link>
+      </div>
 
       {!searchQuery && !selectedCategory && (
         <FeaturedPosts

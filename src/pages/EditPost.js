@@ -1,24 +1,142 @@
-import React, { useContext } from 'react';
-import { PostContext } from '../context/PostContext';
-import PostForm from '../components/PostForm';
+import React, { useEffect, useState } from "react";
 
-const EditPost = ({ id, setPage }) => {
-  const { posts, editPost } = useContext(PostContext);
-  const post = posts.find(p => p.id === id);
+import { useNavigate, useParams } from "react-router-dom";
 
-  if (!post) return <div>Post not found.</div>;
+import Base from "../components/Base";
 
-  const handleUpdate = async (updatedData) => {
-    await editPost(id, updatedData);
-    setPage('details');
+import API, { updatePost } from "../services/api";
+
+const EditPost = () => {
+
+  const { id } = useParams();
+
+  const navigate = useNavigate();
+
+  const [post, setPost] = useState({
+    title: "",
+    content: "",
+    category: "",
+    tags: "",
+    readingTime: "",
+    isFeatured: false
+  });
+
+  useEffect(() => {
+    loadPost();
+  }, []);
+
+  const loadPost = async () => {
+
+    const res = await API.get(`/posts/${id}`);
+
+    setPost({
+      ...res.data,
+      tags: res.data.tags?.join(",")
+    });
+  };
+
+  const handleChange = (e) => {
+
+    const { name, value, type, checked } = e.target;
+
+    setPost({
+      ...post,
+      [name]: type === "checkbox" ? checked : value
+    });
+  };
+
+  const updateThisPost = async (e) => {
+
+    e.preventDefault();
+
+    const updatedData = {
+      ...post,
+      tags: post.tags.split(",")
+    };
+
+    await updatePost(id, updatedData);
+
+    alert("Post updated successfully");
+
+    navigate("/");
   };
 
   return (
-    <div style={{ maxWidth: '700px', margin: '0 auto', padding: '1rem' }}>
-      <h2>Edit Post</h2>
-      <PostForm initialData={post} onSubmit={handleUpdate} />
-      <button className="btn-cancel" onClick={() => setPage('details')} style={{ marginTop: '1rem', background: 'none', border: 'none', color: '#666', cursor: 'pointer' }}>Cancel</button>
-    </div>
+
+    <Base>
+
+      <h1>Edit Post</h1>
+
+      <form onSubmit={updateThisPost} style={{ maxWidth: "600px" }}>
+
+        <input
+          name="title"
+          value={post.title}
+          onChange={handleChange}
+          placeholder="Title"
+        />
+
+        <br /><br />
+
+        <textarea
+          name="content"
+          value={post.content}
+          onChange={handleChange}
+          rows="6"
+          placeholder="Content"
+        />
+
+        <br /><br />
+
+        <input
+          name="category"
+          value={post.category}
+          onChange={handleChange}
+          placeholder="Category"
+        />
+
+        <br /><br />
+
+        <input
+          name="tags"
+          value={post.tags}
+          onChange={handleChange}
+          placeholder="Tags comma separated"
+        />
+
+        <br /><br />
+
+        <input
+          name="readingTime"
+          value={post.readingTime}
+          onChange={handleChange}
+          placeholder="Reading time"
+        />
+
+        <br /><br />
+
+        <label>
+
+          Featured Post
+
+          <input
+            type="checkbox"
+            name="isFeatured"
+            checked={post.isFeatured}
+            onChange={handleChange}
+          />
+
+        </label>
+
+        <br /><br />
+
+        <button type="submit">
+          Update Post
+        </button>
+
+      </form>
+
+    </Base>
   );
 };
 
