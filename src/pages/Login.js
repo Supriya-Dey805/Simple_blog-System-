@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+import { useNavigate, Link } from "react-router-dom";
+import API from "../services/api";
 
 import {
   Card,
@@ -18,22 +20,45 @@ import Base from "../components/Base";
 
 const Login = () => {
 
+  const navigate = useNavigate();
+
   const [popup, setPopup] = useState(false);
 
-  const handleLogin = (e) => {
+  // NEW → state for backend connection
+  const [data, setData] = useState({
+    email: "",
+    password: ""
+  });
+
+  const handleChange = (e) => {
+    setData({
+      ...data,
+      [e.target.id]: e.target.value
+    });
+  };
+
+  const handleLogin = async (e) => {
     e.preventDefault();
 
-    setPopup(true);
+    try {
+      const res = await API.post("/auth/login", data);
 
-    setTimeout(() => {
-      setPopup(false);
-    }, 3000);
+      localStorage.setItem("token", res.data.token);
+
+      setPopup(true);
+
+      setTimeout(() => {
+        setPopup(false);
+        navigate("/"); // go to home after login
+      }, 2000);
+
+    } catch (err) {
+      alert("Invalid credentials");
+    }
   };
 
   return (
     <Base>
-
-      {/* Background */}
       <div
         style={{
           minHeight: "100vh",
@@ -42,13 +67,9 @@ const Login = () => {
           paddingBottom: "40px",
         }}
       >
-
         <Container>
-
           <Row className="mt-5">
-
             <Col sm={{ size: 5, offset: 3 }}>
-
               <Card
                 style={{
                   borderRadius: "20px",
@@ -59,8 +80,6 @@ const Login = () => {
                   overflow: "hidden",
                 }}
               >
-
-                {/* Header */}
                 <CardHeader
                   className="text-center"
                   style={{
@@ -75,108 +94,53 @@ const Login = () => {
 
                 <CardBody>
 
-                  <p
-                    className="text-center"
-                    style={{
-                      color: "#ddd",
-                      marginBottom: "25px",
-                    }}
-                  >
+                  <p className="text-center" style={{ color: "#ddd", marginBottom: "25px" }}>
                     Login to continue your journey
                   </p>
 
-                  {/* Login Form */}
                   <Form onSubmit={handleLogin}>
 
-                    {/* Email */}
                     <FormGroup>
-
-                      <Label for="email">
-                        Email
-                      </Label>
-
+                      <Label>Email</Label>
                       <Input
                         type="email"
                         id="email"
                         placeholder="Enter your email"
                         style={styles.input}
+                        onChange={handleChange}
+                        required
                       />
-
                     </FormGroup>
 
-                    {/* Password */}
                     <FormGroup>
-
-                      <Label for="password">
-                        Password
-                      </Label>
-
+                      <Label>Password</Label>
                       <Input
                         type="password"
                         id="password"
                         placeholder="Enter your password"
                         style={styles.input}
+                        onChange={handleChange}
+                        required
                       />
-
                     </FormGroup>
 
-                    {/* Unique Idea */}
-                    <div
-                      style={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                        marginBottom: "20px",
-                        fontSize: "14px",
-                      }}
-                    >
-                      <label>
-                        <input type="checkbox" /> Remember Me
-                      </label>
-
-                      <a
-                        href="/"
-                        style={{
-                          color: "#00d4ff",
-                          textDecoration: "none",
-                        }}
-                      >
-                        Forgot Password?
-                      </a>
+                    <div style={{display:"flex",justifyContent:"space-between",marginBottom:"20px",fontSize:"14px"}}>
+                      <label><input type="checkbox" /> Remember Me</label>
+                      <a href="/" style={{color:"#00d4ff",textDecoration:"none"}}>Forgot Password?</a>
                     </div>
 
-                    {/* Login Button */}
                     <Container className="text-center">
-
-                      <Button
-                        color="primary"
-                        type="submit"
-                        style={styles.button}
-                      >
+                      <Button color="primary" type="submit" style={styles.button}>
                         Login
                       </Button>
-
-                      <Button
-                        color="light"
-                        className="ms-3"
-                        style={styles.button}
-                      >
-                        Continue with Google
-                      </Button>
-
                     </Container>
 
                   </Form>
 
-                  {/* Extra Feature */}
-                  <div
-                    style={{
-                      marginTop: "25px",
-                      textAlign: "center",
-                      color: "#ccc",
-                    }}
-                  >
-                    ✨ Secure Login System with Stylish UI
-                  </div>
+                  {/* NEW → link to signup */}
+                  <p style={{textAlign:"center",marginTop:"20px"}}>
+                    New user? <Link to="/signup">Create account</Link>
+                  </p>
 
                 </CardBody>
               </Card>
@@ -184,44 +148,16 @@ const Login = () => {
           </Row>
         </Container>
 
-        {/* Popup */}
-        {popup && (
-          <div style={styles.popup}>
-            ✅ Login Successful!
-          </div>
-        )}
-
+        {popup && (<div style={styles.popup}>✅ Login Successful!</div>)}
       </div>
     </Base>
   );
 };
 
 const styles = {
-  input: {
-    borderRadius: "10px",
-    padding: "12px",
-    border: "none",
-    marginTop: "5px",
-  },
-
-  button: {
-    borderRadius: "10px",
-    padding: "10px 25px",
-    fontWeight: "bold",
-  },
-
-  popup: {
-    position: "fixed",
-    top: "30px",
-    right: "30px",
-    background: "#00c851",
-    color: "white",
-    padding: "15px 25px",
-    borderRadius: "10px",
-    boxShadow: "0px 4px 12px rgba(0,0,0,0.3)",
-    fontWeight: "bold",
-    zIndex: 999,
-  },
+  input: { borderRadius: "10px", padding: "12px", border: "none", marginTop: "5px" },
+  button: { borderRadius: "10px", padding: "10px 25px", fontWeight: "bold" },
+  popup: { position:"fixed",top:"30px",right:"30px",background:"#00c851",color:"white",padding:"15px 25px",borderRadius:"10px",boxShadow:"0px 4px 12px rgba(0,0,0,0.3)",fontWeight:"bold",zIndex:999 }
 };
 
 export default Login;

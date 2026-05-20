@@ -1,91 +1,60 @@
-import React, { useContext } from "react";
-
-import { Link } from "react-router-dom";
-
-import { PostContext } from "../context/PostContext";
-
-import FeaturedPosts from "../components/FeaturedPosts";
-import SearchBar from "../components/SearchBar";
-import CategoryFilter from "../components/CategoryFilter";
+import { useEffect, useState } from "react";
+import Base from "../components/Base";
 import PostCard from "../components/PostCard";
-import Loader from "../components/Loader";
-import EmptyState from "../components/EmptyState";
+import API from "../services/api";
 
-import "../styles/home.css";
+const Home = () => {
 
-const Home = ({ setPage, setSelectedPostId }) => {
+  const [posts, setPosts] = useState([]);
+  const [search, setSearch] = useState("");
 
-  const {
-    posts,
-    loading,
-    searchQuery,
-    selectedCategory
-  } = useContext(PostContext);
+  useEffect(() => {
+    fetchPosts();
+  }, []);
 
-  if (loading) return <Loader />;
+  const fetchPosts = async () => {
+    try {
+      const res = await API.get("/posts");
+      setPosts(res.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
+  // SAFE FILTER (this was crashing before)
   const filteredPosts = posts.filter((post) => {
+    const title = post.title || "";
+    const content = post.content || "";
+    const category = post.category || "";
 
-    const matchesSearch =
-      post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      post.content.toLowerCase().includes(searchQuery.toLowerCase());
-
-    const matchesCategory =
-      selectedCategory
-        ? post.category === selectedCategory
-        : true;
-
-    return matchesSearch && matchesCategory;
+    return (
+      title.toLowerCase().includes(search.toLowerCase()) ||
+      content.toLowerCase().includes(search.toLowerCase()) ||
+      category.toLowerCase().includes(search.toLowerCase())
+    );
   });
 
   return (
-    <div className="home-page">
+    <Base>
 
-      {/* Login Signup Buttons */}
-      <div className="auth-buttons">
-        <Link to="/login">
-          <button>Login</button>
-        </Link>
+      <h1>All Blog Posts</h1>
 
-        <Link to="/signup">
-          <button>Signup</button>
-        </Link>
-      </div>
+      {/* Search bar */}
+      <input
+        type="text"
+        placeholder="Search posts..."
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+        style={{ padding: "8px", marginBottom: "20px", width: "300px" }}
+      />
 
-      {!searchQuery && !selectedCategory && (
-        <FeaturedPosts
-          posts={posts}
-          setPage={setPage}
-          setSelectedPostId={setSelectedPostId}
-        />
-      )}
+      {filteredPosts.length === 0 && <p>No posts found</p>}
 
-      <div className="main-content">
+      {filteredPosts.map((post) => (
+        <PostCard key={post._id} post={post} />
+      ))}
 
-        <h2>Latest Exploration</h2>
-
-        <div className="toolbar">
-          <SearchBar />
-          <CategoryFilter />
-        </div>
-
-        {filteredPosts.length === 0 ? (
-          <EmptyState />
-        ) : (
-          <div className="posts-grid">
-            {filteredPosts.map((post) => (
-              <PostCard
-                key={post.id}
-                post={post}
-                setPage={setPage}
-                setSelectedPostId={setSelectedPostId}
-              />
-            ))}
-          </div>
-        )}
-
-      </div>
-    </div>
+    </Base>
   );
 };
 
