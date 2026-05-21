@@ -23,7 +23,7 @@ const CustomNavbar = () => {
   return (
     <div>
       <Navbar color="info" light expand="md">
-        <NavbarBrand tag={ReactLink} to="/">
+        <NavbarBrand tag={ReactLink} to="/home">
           Simple Blogs
         </NavbarBrand>
 
@@ -33,7 +33,7 @@ const CustomNavbar = () => {
           <Nav className="me-auto" navbar>
 
             <NavItem>
-              <NavLink tag={ReactLink} to="/">
+              <NavLink tag={ReactLink} to="/home">
                 Home
               </NavLink>
             </NavItem>

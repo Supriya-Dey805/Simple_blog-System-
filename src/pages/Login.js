@@ -49,7 +49,7 @@ const Login = () => {
 
       setTimeout(() => {
         setPopup(false);
-        navigate("/"); // go to home after login
+        navigate("/home"); // go to home after login
       }, 2000);
 
     } catch (err) {

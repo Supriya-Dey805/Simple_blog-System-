@@ -1,32 +1,35 @@
 const express = require("express");
+
 const router = express.Router();
 
 const {
   createPost,
-  getPosts,
-  getFeaturedPosts,
-  likePost,
-  searchPosts,
-  getPostsByCategory
+  getAllPosts,
+  getSinglePost,
+  updatePost,
+  deletePost,
+  likePost
 } = require("../controllers/postController");
 
-router.post("/", createPost);
-router.get("/", getPosts);
-router.get("/featured", getFeaturedPosts);
-router.get("/search", searchPosts);
-router.get("/category/:category", getPostsByCategory);
-router.put("/:id/like", likePost);
 
-// LIKE POST
-router.put("/posts/like/:id", async (req, res) => {
-  try {
-    const post = await Post.findById(req.params.id);
-    post.likes = post.likes + 1;
-    const updatedPost = await post.save();
-    res.json(updatedPost);
-  } catch (err) {
-    res.status(500).json(err);
-  }
-});
+// CREATE
+router.post("/", createPost);
+
+// READ ALL
+router.get("/", getAllPosts);
+
+// LIKE
+router.put("/like/:id", likePost);
+
+// READ ONE
+router.get("/:id", getSinglePost);
+
+// UPDATE
+router.put("/:id", updatePost);
+
+// DELETE
+router.delete("/:id", deletePost);
+
+
 
 module.exports = router;

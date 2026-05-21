@@ -1,86 +1,174 @@
+import { Card, CardBody, Button, Badge } from "reactstrap";
+import { Link } from "react-router-dom";
+import { likePost, deletePost } from "../services/api";
 
-import React from 'react';
-import TagList from './TagList';
+const PostCard = ({ post }) => {
 
-import { useNavigate } from 'react-router-dom';
-
-import { deletePost, likePost } from '../services/api';
-
-const PostCard = ({ post, refreshPosts }) => {
-
-  const navigate = useNavigate();
-
-  const deleteThisPost = async () => {
-    await deletePost(post._id);
-    refreshPosts();
+  const handleLike = async () => {
+    try {
+      await likePost(post._id);
+      window.location.reload();
+    } catch (err) {
+      console.log(err);
+    }
   };
 
-  const likeThisPost = async () => {
-    await likePost(post._id);
-    refreshPosts();
-  };
+  const handleDelete = async () => {
+    try {
 
-  const goToEditPage = () => {
-    navigate(`/edit-post/${post._id}`);
+      const confirmDelete = window.confirm("Delete this post?");
+
+      if(confirmDelete){
+        await deletePost(post._id);
+        window.location.reload();
+      }
+
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   return (
-    <div
+
+    <Card
+      className="mb-4 shadow"
       style={{
-        border: '1px solid gray',
-        padding: '15px',
-        margin: '15px'
+        borderRadius: "18px",
+        border: post.isFeatured
+          ? "2px solid gold"
+          : "1px solid #ddd",
+        background: post.isFeatured
+          ? "linear-gradient(to right, #fff8dc, #ffffff)"
+          : "#fff",
+        transition: "0.3s"
       }}
     >
 
-      <span className="post-category">
-        {post.category}
-      </span>
+      <CardBody>
 
-      <h2>{post.title}</h2>
+        {/* Featured Badge */}
+        {post.isFeatured && (
+          <Badge
+            color="warning"
+            pill
+            style={{
+              marginBottom: "12px",
+              fontSize: "14px",
+              padding: "8px"
+            }}
+          >
+            ⭐ Featured Post
+          </Badge>
+        )}
 
-      <p>
-        {post.content?.substring(0, 120)}...
-      </p>
+        {/* Category */}
+        <p
+          style={{
+            color: "#777",
+            marginBottom: "5px",
+            fontWeight: "bold"
+          }}
+        >
+          {post.category}
+        </p>
 
-      <div className="post-card-footer">
-        <TagList tags={post.tags} />
-        <span className="post-date">
-          {post.date}
-        </span>
-      </div>
+        {/* Title */}
+        <h2
+          style={{
+            fontWeight: "bold",
+            marginBottom: "15px"
+          }}
+        >
+          {post.title}
+        </h2>
 
-      <small>By {post.author}</small>
+        {/* Content */}
+        <p
+          style={{
+            color: "#444",
+            lineHeight: "28px"
+          }}
+        >
+          {post.content.substring(0, 150)}...
+        </p>
 
-      <h4>Likes: {post.likes}</h4>
+        {/* Tags */}
+        <div style={{ marginTop: "15px" }}>
+          {post.tags &&
+            post.tags.map((tag, index) => (
+              <Badge
+                key={index}
+                color="light"
+                className="me-2"
+                style={{
+                  padding: "8px",
+                  fontSize: "12px"
+                }}
+              >
+                #{tag}
+              </Badge>
+            ))}
+        </div>
 
-      <p>
-        <b>Category:</b> {post.category}
-      </p>
+        {/* Extra Info */}
+        <div
+          style={{
+            marginTop: "18px",
+            color: "#555"
+          }}
+        >
 
-      <p>
-        <b>Reading Time:</b> {post.readingTime}
-      </p>
+          <p>
+            ❤️ Likes:
+            <strong> {post.likes}</strong>
+          </p>
 
-      <p>
-        <b>Tags:</b> {post.tags?.join(', ')}
-      </p>
+          <p>
+            📚 Reading Time:
+            <strong> {post.readingTime}</strong>
+          </p>
 
-      {post.isFeatured && <h3>★ Featured</h3>}
+          <p>
+            🕒 Posted On:
+            <strong>
+              {" "}
+              {new Date(post.createdAt).toLocaleDateString()}
+            </strong>
+          </p>
 
-      <button onClick={likeThisPost}>
-        Like
-      </button>
+        </div>
 
-      <button onClick={goToEditPage}>
-        Edit
-      </button>
+        {/* Buttons */}
+        <div style={{ marginTop: "20px" }}>
 
-      <button onClick={deleteThisPost}>
-        Delete
-      </button>
+          <Button
+            color="danger"
+            onClick={handleLike}
+            className="me-2"
+          >
+            ❤️ Like
+          </Button>
 
-    </div>
+          <Button
+            color="primary"
+            tag={Link}
+            to={`/edit/${post._id}`}
+            className="me-2"
+          >
+            ✏ Edit
+          </Button>
+
+          <Button
+            color="dark"
+            onClick={handleDelete}
+          >
+            🗑 Delete
+          </Button>
+
+        </div>
+
+      </CardBody>
+    </Card>
   );
 };
 

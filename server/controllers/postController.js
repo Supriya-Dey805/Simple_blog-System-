@@ -1,82 +1,125 @@
 const Post = require("../models/Post");
-const calculateReadingTime = require("../utils/readingTime");
+
 
 // CREATE POST
 exports.createPost = async (req, res) => {
+
   try {
-    const { title, content, category, tags, isFeatured } = req.body;
 
-    const readingTime = calculateReadingTime(content);
-
-    const post = await Post.create({
-      title,
-      content,
-      category,
-      tags,
-      isFeatured,
-      readingTime
-    });
+    const post = await Post.create(req.body);
 
     res.status(201).json(post);
+
   } catch (error) {
-    res.status(500).json({ message: error.message });
+
+    res.status(500).json({
+      message: error.message
+    });
+
   }
 };
 
-// GET ALL POSTS + SORT
-exports.getPosts = async (req, res) => {
+
+// GET ALL POSTS
+exports.getAllPosts = async (req, res) => {
+
   try {
-    const sortType = req.query.sort;
-    let sortOption = { createdAt: -1 };
 
-    if (sortType === "popular") sortOption = { likes: -1 };
+    const posts = await Post.find().sort({ createdAt: -1 });
 
-    const posts = await Post.find().sort(sortOption);
-    res.json(posts);
+    res.status(200).json(posts);
+
   } catch (error) {
-    res.status(500).json({ message: error.message });
+
+    res.status(500).json({
+      message: error.message
+    });
+
   }
 };
 
-// GET FEATURED POSTS
-exports.getFeaturedPosts = async (req, res) => {
-  const posts = await Post.find({ isFeatured: true }).limit(5);
-  res.json(posts);
+
+// GET SINGLE POST
+exports.getSinglePost = async (req, res) => {
+
+  try {
+
+    const post = await Post.findById(req.params.id);
+
+    res.status(200).json(post);
+
+  } catch (error) {
+
+    res.status(500).json({
+      message: error.message
+    });
+
+  }
 };
+
+
+// UPDATE POST
+exports.updatePost = async (req, res) => {
+
+  try {
+
+    const updatedPost = await Post.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      { new: true }
+    );
+
+    res.status(200).json(updatedPost);
+
+  } catch (error) {
+
+    res.status(500).json({
+      message: error.message
+    });
+
+  }
+};
+
+
+// DELETE POST
+exports.deletePost = async (req, res) => {
+
+  try {
+
+    await Post.findByIdAndDelete(req.params.id);
+
+    res.status(200).json({
+      message: "Post deleted successfully"
+    });
+
+  } catch (error) {
+
+    res.status(500).json({
+      message: error.message
+    });
+
+  }
+};
+
 
 // LIKE POST
 exports.likePost = async (req, res) => {
-  const post = await Post.findById(req.params.id);
-  post.likes += 1;
-  await post.save();
-  res.json(post);
-};
 
-exports.searchPosts = async (req, res) => {
   try {
-    const keyword = req.query.keyword;
 
-    const posts = await Post.find({
-      $or: [
-        { title: { $regex: keyword, $options: "i" } },
-        { tags: { $regex: keyword, $options: "i" } }
-      ]
+    const post = await Post.findById(req.params.id);
+
+    post.likes = post.likes + 1;
+
+    await post.save();
+
+    res.status(200).json(post);
+
+  } catch (error) {
+
+    res.status(500).json({
+      message: error.message
     });
 
-    res.json(posts);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
-  }
-};
-
-exports.getPostsByCategory = async (req, res) => {
-  try {
-    const posts = await Post.find({
-      category: req.params.category
-    });
-
-    res.json(posts);
-  } catch (error) {
-    res.status(500).json({ message: error.message });
   }
 };
