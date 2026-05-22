@@ -1,10 +1,37 @@
 import React from 'react';
 
 const Footer = () => {
+
   return (
-    <footer style={{ textAlign: 'center', padding: '2rem', marginTop: '4rem', borderTop: '1px solid #eee', color: '#666' }}>
-      <p>&copy; 2026 DevBlog. Built with React.</p>
-    </footer>
+
+    <div
+      style={{
+        background: "#141e30",
+        color: "white",
+        padding: "25px",
+        textAlign: "center",
+        marginTop: "60px"
+      }}
+    >
+
+      <h4>
+        🌍 BlogSphere
+      </h4>
+
+      <p>
+        Share Ideas • Explore Knowledge • Inspire Others
+      </p>
+
+      <p
+        style={{
+          color: "#bbb",
+          fontSize: "14px"
+        }}
+      >
+        © 2026 BlogSphere | Built with React, Node.js & MongoDB
+      </p>
+
+    </div>
   );
 };
 

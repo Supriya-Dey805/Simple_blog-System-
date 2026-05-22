@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { toast } from "react-toastify";
 
 import Base from "../components/Base";
 import API from "../services/api";
@@ -67,7 +68,7 @@ const EditPost = () => {
 
       await API.put(`/posts/${id}`, updatedData);
 
-      alert("Post Updated Successfully");
+      toast.success("Post Updated Successfully");
 
       navigate("/");
 

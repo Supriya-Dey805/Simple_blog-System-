@@ -8,7 +8,8 @@ const {
   getSinglePost,
   updatePost,
   deletePost,
-  likePost
+  likePost,
+  addComment
 } = require("../controllers/postController");
 
 
@@ -30,6 +31,7 @@ router.put("/:id", updatePost);
 // DELETE
 router.delete("/:id", deletePost);
 
-
+// ADD COMMENT
+router.post("/:id/comment", addComment);
 
 module.exports = router;

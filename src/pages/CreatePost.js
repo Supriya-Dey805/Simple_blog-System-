@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { toast } from "react-toastify";
 
 import API from "../services/api";
 
@@ -38,7 +39,7 @@ const CreatePost = () => {
 
       await API.post("/posts", postData);
 
-      alert("Post Created Successfully");
+      toast.success("Post Created Successfully");
 
       setFormData({
         title: "",

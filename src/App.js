@@ -1,3 +1,6 @@
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
 import React from "react";
 
 import { BrowserRouter, Routes, Route } from "react-router-dom";
@@ -19,6 +22,8 @@ import CreatePost from "./pages/CreatePost";
 import EditPost from "./pages/EditPost";
 import Splash from "./pages/Splash";
 import Userdashboard from "./pages/Userdashboard";
+import PostDetails from "./pages/PostDetails";
+import Profile from "./pages/Profile";
 
 // Components
 import Privateroute from "./components/Privateroute";
@@ -30,6 +35,12 @@ function App() {
     <PostProvider>
 
       <BrowserRouter>
+
+        {/* TOAST CONTAINER */}
+        <ToastContainer
+          position="top-right"
+          autoClose={3000}
+        />
 
         <Routes>
 
@@ -74,6 +85,10 @@ function App() {
             path="/edit/:id"
             element={<EditPost />}
           />
+
+          <Route path="/posts/:id" element={<PostDetails />} />
+
+          <Route path="/profile" element={<Profile />} />
 
           {/* Protected Routes */}
           <Route

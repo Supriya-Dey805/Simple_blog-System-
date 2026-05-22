@@ -1,30 +1,43 @@
 import { Card, CardBody, Button, Badge } from "reactstrap";
+
 import { Link } from "react-router-dom";
+
 import { likePost, deletePost } from "../services/api";
 
 const PostCard = ({ post }) => {
 
   const handleLike = async () => {
+
     try {
+
       await likePost(post._id);
+
       window.location.reload();
+
     } catch (err) {
+
       console.log(err);
+
     }
   };
 
   const handleDelete = async () => {
+
     try {
 
       const confirmDelete = window.confirm("Delete this post?");
 
       if(confirmDelete){
+
         await deletePost(post._id);
+
         window.location.reload();
       }
 
     } catch (err) {
+
       console.log(err);
+
     }
   };
 
@@ -34,13 +47,18 @@ const PostCard = ({ post }) => {
       className="mb-4 shadow"
       style={{
         borderRadius: "18px",
+
         border: post.isFeatured
           ? "2px solid gold"
           : "1px solid #ddd",
+
         background: post.isFeatured
           ? "linear-gradient(to right, #fff8dc, #ffffff)"
           : "#fff",
-        transition: "0.3s"
+
+        transition: "0.3s",
+
+        overflow: "hidden"
       }}
     >
 
@@ -48,6 +66,7 @@ const PostCard = ({ post }) => {
 
         {/* Featured Badge */}
         {post.isFeatured && (
+
           <Badge
             color="warning"
             pill
@@ -59,6 +78,7 @@ const PostCard = ({ post }) => {
           >
             ⭐ Featured Post
           </Badge>
+
         )}
 
         {/* Category */}
@@ -72,15 +92,26 @@ const PostCard = ({ post }) => {
           {post.category}
         </p>
 
-        {/* Title */}
-        <h2
+        {/* CLICKABLE TITLE */}
+        <Link
+          to={`/posts/${post._id}`}
           style={{
-            fontWeight: "bold",
-            marginBottom: "15px"
+            textDecoration: "none",
+            color: "black"
           }}
         >
-          {post.title}
-        </h2>
+
+          <h2
+            style={{
+              fontWeight: "bold",
+              marginBottom: "15px",
+              cursor: "pointer"
+            }}
+          >
+            {post.title}
+          </h2>
+
+        </Link>
 
         {/* Content */}
         <p
@@ -92,10 +123,25 @@ const PostCard = ({ post }) => {
           {post.content.substring(0, 150)}...
         </p>
 
+        {/* Read More */}
+        <Link
+          to={`/posts/${post._id}`}
+          style={{
+            color: "#007bff",
+            textDecoration: "none",
+            fontWeight: "bold"
+          }}
+        >
+          Read Full Blog →
+        </Link>
+
         {/* Tags */}
         <div style={{ marginTop: "15px" }}>
-          {post.tags &&
+
+          {
+            post.tags &&
             post.tags.map((tag, index) => (
+
               <Badge
                 key={index}
                 color="light"
@@ -107,7 +153,10 @@ const PostCard = ({ post }) => {
               >
                 #{tag}
               </Badge>
-            ))}
+
+            ))
+          }
+
         </div>
 
         {/* Extra Info */}

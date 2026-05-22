@@ -62,106 +62,137 @@ const Home = () => {
 
     <Base>
 
-      {/* PAGE TITLE */}
-      <div
-        style={{
-          textAlign: "center",
-          marginBottom: "30px"
-        }}
-      >
 
-        <h1
-          style={{
-            fontWeight: "bold",
-            fontSize: "42px"
-          }}
-        >
-          📝 Simple Blog System
-        </h1>
+    {/* HERO SECTION */}
 
-        <p
-          style={{
-            color: "#666"
-          }}
-        >
-          Read • Write • Explore Amazing Blogs
-        </p>
+<div
+  style={{
+    background: "linear-gradient(to right, #141e30, #243b55)",
+    color: "white",
+    padding: "60px 30px",
+    borderRadius: "20px",
+    marginBottom: "40px",
+    textAlign: "center",
+    boxShadow: "0px 8px 25px rgba(0,0,0,0.3)"
+  }}
+>
 
-      </div>
+  <h1
+    style={{
+      fontSize: "52px",
+      fontWeight: "bold",
+      marginBottom: "20px"
+    }}
+  >
+    Share Your Ideas With The World 🌍
+  </h1>
 
-      {/* SEARCH BAR */}
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          marginBottom: "25px"
-        }}
-      >
+  <p
+    style={{
+      fontSize: "20px",
+      color: "#ddd",
+      marginBottom: "30px"
+    }}
+  >
+    Discover trending blogs, write stories, and inspire readers.
+  </p>
 
-        <input
-          type="text"
-          placeholder="Search posts by title, category..."
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          style={{
-            padding: "12px",
-            width: "400px",
-            borderRadius: "10px",
-            border: "1px solid #ccc",
-            outline: "none",
-            boxShadow: "0px 2px 8px rgba(0,0,0,0.1)"
-          }}
-        />
+  <a
+    href="/create"
+    style={{
+      background: "#00d4ff",
+      color: "black",
+      padding: "14px 28px",
+      borderRadius: "12px",
+      textDecoration: "none",
+      fontWeight: "bold",
+      fontSize: "18px"
+    }}
+  >
+    ✍ Create New Blog
+  </a>
 
-      </div>
+</div>
 
-      {/* CATEGORY FILTER BUTTONS */}
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          gap: "12px",
-          marginBottom: "35px",
-          flexWrap: "wrap"
-        }}
-      >
 
-        <button
-          onClick={() => setSelectedCategory("All")}
-          style={styles.filterButton}
-        >
-          All
-        </button>
+      {/* SEARCH + CATEGORY SECTION */}
 
-        <button
-          onClick={() => setSelectedCategory("Technology")}
-          style={styles.filterButton}
-        >
-          Technology
-        </button>
+<div
+  style={{
+    display: "flex",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: "35px",
+    flexWrap: "wrap",
+    gap: "20px"
+  }}
+>
 
-        <button
-          onClick={() => setSelectedCategory("Study")}
-          style={styles.filterButton}
-        >
-          Study
-        </button>
+  {/* SEARCH BAR */}
+  <input
+    type="text"
+    placeholder="Search blogs, technology, AI, travel, coding..."
+    value={search}
+    onChange={(e) => setSearch(e.target.value)}
+    style={{
+      padding: "14px",
+      width: "420px",
+      borderRadius: "12px",
+      border: "1px solid #ccc",
+      outline: "none",
+      boxShadow: "0px 4px 12px rgba(0,0,0,0.1)",
+      fontSize: "15px"
+    }}
+  />
 
-        <button
-          onClick={() => setSelectedCategory("Travel")}
-          style={styles.filterButton}
-        >
-          Travel
-        </button>
+  {/* CATEGORY DROPDOWN */}
+  <select
+    value={selectedCategory}
+    onChange={(e) => setSelectedCategory(e.target.value)}
+    style={{
+      padding: "14px",
+      borderRadius: "12px",
+      border: "1px solid #ccc",
+      outline: "none",
+      boxShadow: "0px 4px 12px rgba(0,0,0,0.1)",
+      minWidth: "220px",
+      fontWeight: "bold"
+    }}
+  >
 
-        <button
-          onClick={() => setSelectedCategory("Lifestyle")}
-          style={styles.filterButton}
-        >
-          Lifestyle
-        </button>
+    <option value="All">All Topics</option>
 
-      </div>
+    <option value="Technology">Technology</option>
+
+    <option value="Artificial Intelligence">Artificial Intelligence</option>
+
+    <option value="Programming">Programming</option>
+
+    <option value="Cyber Security">Cyber Security</option>
+
+    <option value="Cloud Computing">Cloud Computing</option>
+
+    <option value="Travel">Travel</option>
+
+    <option value="Lifestyle">Lifestyle</option>
+
+    <option value="Fitness">Fitness</option>
+
+    <option value="Education">Education</option>
+
+    <option value="Study">Study</option>
+
+    <option value="Business">Business</option>
+
+    <option value="Finance">Finance</option>
+
+    <option value="Sports">Sports</option>
+
+    <option value="Food">Food</option>
+
+  </select>
+
+</div>
 
       {/* FEATURED POSTS */}
       <div style={{ marginBottom: "40px" }}>
@@ -185,6 +216,33 @@ const Home = () => {
         }
 
       </div>
+      {/* TRENDING POSTS */}
+
+<div style={{ marginBottom: "40px" }}>
+
+  <h2
+    style={{
+      marginBottom: "20px",
+      color: "#ff5722",
+      fontWeight: "bold"
+    }}
+  >
+    🔥 Trending Blogs
+  </h2>
+
+  {
+    [...filteredPosts]
+      .sort((a, b) => b.likes - a.likes)
+      .slice(0, 3)
+      .map((post) => (
+        <PostCard
+          key={post._id}
+          post={post}
+        />
+      ))
+  }
+
+</div>
 
       {/* ALL POSTS */}
       <div>
@@ -195,7 +253,7 @@ const Home = () => {
             fontWeight: "bold"
           }}
         >
-          📚 All Posts
+          📚 Latest Blogs
         </h2>
 
         {filteredPosts.length === 0 && (
@@ -245,7 +303,8 @@ const styles = {
 
     fontWeight: "bold",
 
-    transition: "0.3s"
+    transition: "0.3s",
+boxShadow: "0px 4px 12px rgba(0,0,0,0.2)"
   }
 };
 
