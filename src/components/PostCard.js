@@ -92,6 +92,23 @@ const PostCard = ({ post }) => {
           {post.category}
         </p>
 
+{
+  post.image && (
+
+    <img
+      src={post.image}
+      alt="blog"
+      style={{
+        width: "100%",
+        height: "250px",
+        objectFit: "cover",
+        borderRadius: "12px",
+        marginBottom: "15px"
+      }}
+    />
+
+  )
+}
         {/* CLICKABLE TITLE */}
         <Link
           to={`/posts/${post._id}`}
@@ -112,6 +129,15 @@ const PostCard = ({ post }) => {
           </h2>
 
         </Link>
+
+        <p
+  style={{
+    color: "#666",
+    marginBottom: "10px"
+  }}
+>
+  ✍ By {post.author}
+</p>
 
         {/* Content */}
         <p

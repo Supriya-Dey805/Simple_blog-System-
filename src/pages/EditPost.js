@@ -17,6 +17,7 @@ const EditPost = () => {
     category: "",
     tags: "",
     readingTime: "",
+    author:"",
     isFeatured: false
   });
 
@@ -97,6 +98,14 @@ const EditPost = () => {
           placeholder="Title"
           required
         />
+
+        <input
+  name="author"
+  value={post.author}
+  onChange={handleChange}
+  placeholder="Author Name"
+/>
+
 
         <br/><br/>
 

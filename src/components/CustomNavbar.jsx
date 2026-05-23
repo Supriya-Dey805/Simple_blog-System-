@@ -60,6 +60,13 @@ const CustomNavbar = () => {
 
   };
 
+  const logout = () => {
+
+  localStorage.removeItem("isLoggedIn");
+
+  window.location.href = "/login";
+};
+
   return (
 
     <div>
@@ -126,6 +133,13 @@ const CustomNavbar = () => {
     Profile
   </NavLink>
 </NavItem>
+
+<Button
+  color="danger"
+  onClick={logout}
+>
+  Logout
+</Button>
 
             <UncontrolledDropdown nav inNavbar>
 

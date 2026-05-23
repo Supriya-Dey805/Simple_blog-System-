@@ -13,6 +13,7 @@ const CreatePost = () => {
     category: "",
     tags: "",
     readingTime: "",
+    author: "",
     isFeatured: false,
   });
 
@@ -47,6 +48,7 @@ const CreatePost = () => {
         category: "",
         tags: "",
         readingTime: "",
+        image: "",
         isFeatured: false,
       });
 
@@ -75,6 +77,16 @@ const CreatePost = () => {
           required
         />
 
+        <input
+  type="text"
+  name="author"
+  placeholder="Author Name"
+  value={formData.author}
+  onChange={handleChange}
+  required
+/>
+
+
         <br /><br />
 
         <textarea
@@ -95,6 +107,14 @@ const CreatePost = () => {
           value={formData.category}
           onChange={handleChange}
         />
+
+        <input
+  type="text"
+  name="image"
+  placeholder="Paste Image URL"
+  value={formData.image}
+  onChange={handleChange}
+/>
 
         <br /><br />
 

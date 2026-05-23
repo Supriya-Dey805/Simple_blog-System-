@@ -14,25 +14,38 @@ const PostDetails = () => {
   const [comment, setComment] = useState("");
 
   const [username, setUsername] = useState("");
+  const [relatedPosts, setRelatedPosts] = useState([]);
 
   useEffect(() => {
     loadPost();
   }, []);
 
-  const loadPost = async () => {
+const loadPost = async () => {
 
-    try {
+  try {
 
-      const res = await API.get(`/posts/${id}`);
+    const res = await API.get(`/posts/${id}`);
 
-      setPost(res.data);
+    setPost(res.data);
 
-    } catch (error) {
+    // RELATED POSTS
 
-      console.log(error);
+    const related = await API.get("/posts");
 
-    }
-  };
+    const filtered = related.data.filter(
+      (p) =>
+        p.category === res.data.category &&
+        p._id !== res.data._id
+    );
+
+    setRelatedPosts(filtered.slice(0,3));
+
+  } catch (error) {
+
+    console.log(error);
+
+  }
+};
 
   const handleComment = async () => {
 
@@ -97,6 +110,15 @@ const PostDetails = () => {
           {post.title}
         </h1>
 
+        <p
+  style={{
+    color: "#777",
+    fontSize: "18px"
+  }}
+>
+  ✍ By {post.author}
+</p>
+
         <div
           style={{
             display: "flex",
@@ -153,6 +175,49 @@ const PostDetails = () => {
           }
 
         </div>
+
+        <div
+  style={{
+    marginTop: "70px"
+  }}
+>
+
+  <h2
+    style={{
+      marginBottom: "25px",
+      fontWeight: "bold"
+    }}
+  >
+    🔥 Related Posts
+  </h2>
+
+  {
+    relatedPosts.map((item) => (
+
+      <div
+        key={item._id}
+        style={{
+          padding: "18px",
+          border: "1px solid #ddd",
+          borderRadius: "12px",
+          marginBottom: "15px"
+        }}
+      >
+
+        <h4>
+          {item.title}
+        </h4>
+
+        <p>
+          {item.category}
+        </p>
+
+      </div>
+
+    ))
+  }
+
+</div>
 
         {/* COMMENTS SECTION */}
 

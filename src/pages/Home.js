@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import Base from "../components/Base";
 import PostCard from "../components/PostCard";
 import API from "../services/api";
+import { Navigate } from "react-router-dom";
 
 const Home = () => {
 
@@ -58,6 +59,12 @@ const Home = () => {
     return matchesSearch && matchesCategory;
   });
 
+  const isLoggedIn = localStorage.getItem("isLoggedIn");
+
+if(!isLoggedIn){
+
+  return <Navigate to="/login" />;
+}
   return (
 
     <Base>
