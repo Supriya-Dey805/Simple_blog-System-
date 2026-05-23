@@ -17,7 +17,7 @@ const EditPost = () => {
     category: "",
     tags: "",
     readingTime: "",
-    author:"",
+    author: "",
     isFeatured: false
   });
 
@@ -71,6 +71,7 @@ const EditPost = () => {
 
       toast.success("Post Updated Successfully");
 
+      // GO BACK TO SPLASH / HOME PAGE
       navigate("/");
 
     } catch (error) {
@@ -86,93 +87,199 @@ const EditPost = () => {
 
     <Base>
 
-      <h1>Edit Blog Post</h1>
+      <div
+        style={{
+          minHeight: "100vh",
+          background: "linear-gradient(to right, #141e30, #243b55)",
+          padding: "40px 20px"
+        }}
+      >
 
-      <form onSubmit={updateThisPost} style={{maxWidth:"600px"}}>
+        <div
+          style={{
+            maxWidth: "700px",
+            margin: "auto",
+            background: "white",
+            padding: "40px",
+            borderRadius: "20px",
+            boxShadow: "0px 8px 25px rgba(0,0,0,0.3)"
+          }}
+        >
 
-        <input
-          type="text"
-          name="title"
-          value={post.title}
-          onChange={handleChange}
-          placeholder="Title"
-          required
-        />
+          <h1
+            style={{
+              textAlign: "center",
+              marginBottom: "30px",
+              fontWeight: "bold",
+              color: "#203a43"
+            }}
+          >
+            ✏ Edit Blog Post
+          </h1>
 
-        <input
-  name="author"
-  value={post.author}
-  onChange={handleChange}
-  placeholder="Author Name"
-/>
+          <form onSubmit={updateThisPost}>
 
+            <input
+              type="text"
+              name="title"
+              value={post.title}
+              onChange={handleChange}
+              placeholder="Title"
+              required
+              style={styles.input}
+            />
 
-        <br/><br/>
+            <input
+              type="text"
+              name="author"
+              value={post.author}
+              onChange={handleChange}
+              placeholder="Author Name"
+              style={styles.input}
+            />
 
-        <textarea
-          name="content"
-          rows="6"
-          value={post.content}
-          onChange={handleChange}
-          placeholder="Content"
-          required
-        />
+            <textarea
+              name="content"
+              rows="6"
+              value={post.content}
+              onChange={handleChange}
+              placeholder="Content"
+              required
+              style={styles.textarea}
+            />
 
-        <br/><br/>
+            <input
+              type="text"
+              name="category"
+              value={post.category}
+              onChange={handleChange}
+              placeholder="Category"
+              style={styles.input}
+            />
 
-        <input
-          type="text"
-          name="category"
-          value={post.category}
-          onChange={handleChange}
-          placeholder="Category"
-        />
+            <input
+              type="text"
+              name="tags"
+              value={post.tags}
+              onChange={handleChange}
+              placeholder="Tags"
+              style={styles.input}
+            />
 
-        <br/><br/>
+            <input
+              type="text"
+              name="readingTime"
+              value={post.readingTime}
+              onChange={handleChange}
+              placeholder="Reading Time"
+              style={styles.input}
+            />
 
-        <input
-          type="text"
-          name="tags"
-          value={post.tags}
-          onChange={handleChange}
-          placeholder="Tags"
-        />
+            <label
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "10px",
+                marginTop: "15px",
+                fontWeight: "bold",
+                color: "#333"
+              }}
+            >
 
-        <br/><br/>
+              <input
+                type="checkbox"
+                name="isFeatured"
+                checked={post.isFeatured}
+                onChange={handleChange}
+              />
 
-        <input
-          type="text"
-          name="readingTime"
-          value={post.readingTime}
-          onChange={handleChange}
-          placeholder="Reading Time"
-        />
+              Featured Post
 
-        <br/><br/>
+            </label>
 
-        <label>
+            <button
+              type="submit"
+              style={styles.button}
+            >
+              🚀 Update Post
+            </button>
 
-          <input
-            type="checkbox"
-            name="isFeatured"
-            checked={post.isFeatured}
-            onChange={handleChange}
-          />
+          </form>
 
-          Featured Post
+        </div>
 
-        </label>
-
-        <br/><br/>
-
-        <button type="submit">
-          Update Post
-        </button>
-
-      </form>
+      </div>
 
     </Base>
   );
+};
+
+const styles = {
+
+  input: {
+
+    width: "100%",
+
+    padding: "14px",
+
+    marginBottom: "20px",
+
+    borderRadius: "12px",
+
+    border: "1px solid #ccc",
+
+    outline: "none",
+
+    fontSize: "15px",
+
+    boxShadow: "0px 4px 10px rgba(0,0,0,0.08)"
+  },
+
+  textarea: {
+
+    width: "100%",
+
+    padding: "14px",
+
+    marginBottom: "20px",
+
+    borderRadius: "12px",
+
+    border: "1px solid #ccc",
+
+    outline: "none",
+
+    fontSize: "15px",
+
+    resize: "none",
+
+    boxShadow: "0px 4px 10px rgba(0,0,0,0.08)"
+  },
+
+  button: {
+
+    width: "100%",
+
+    padding: "15px",
+
+    border: "none",
+
+    borderRadius: "12px",
+
+    background: "linear-gradient(to right, #141e30, #243b55)",
+
+    color: "white",
+
+    fontWeight: "bold",
+
+    fontSize: "16px",
+
+    marginTop: "25px",
+
+    cursor: "pointer",
+
+    transition: "0.3s"
+  }
 };
 
 export default EditPost;

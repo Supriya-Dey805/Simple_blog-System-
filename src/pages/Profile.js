@@ -1,6 +1,50 @@
+import { useEffect, useState } from "react";
 import Base from "../components/Base";
+import API from "../services/api";
 
 const Profile = () => {
+
+  const [userPosts, setUserPosts] = useState([]);
+
+  const username = localStorage.getItem("username");
+
+  useEffect(() => {
+    fetchUserPosts();
+  }, []);
+
+  const fetchUserPosts = async () => {
+
+    try {
+
+      const res = await API.get("/posts");
+
+      // ONLY POSTS OF LOGGED IN USER
+      const filtered = res.data.filter(
+        (post) => post.author === username
+      );
+
+      setUserPosts(filtered);
+
+    } catch (error) {
+
+      console.log(error);
+
+    }
+  };
+
+  // TOTAL POSTS
+  const totalPosts = userPosts.length;
+
+  // TOTAL LIKES
+  const totalLikes = userPosts.reduce(
+    (sum, post) => sum + post.likes,
+    0
+  );
+
+  // FEATURED POSTS
+  const featuredPosts = userPosts.filter(
+    (post) => post.isFeatured
+  ).length;
 
   return (
 
@@ -37,7 +81,7 @@ const Profile = () => {
               fontWeight: "bold"
             }}
           >
-            Sup
+            {username}
           </h1>
 
           <p>
@@ -58,17 +102,17 @@ const Profile = () => {
         >
 
           <div style={styles.card}>
-            <h2>📝 12</h2>
+            <h2>📝 {totalPosts}</h2>
             <p>Total Posts</p>
           </div>
 
           <div style={styles.card}>
-            <h2>❤️ 340</h2>
+            <h2>❤️ {totalLikes}</h2>
             <p>Total Likes</p>
           </div>
 
           <div style={styles.card}>
-            <h2>⭐ 5</h2>
+            <h2>⭐ {featuredPosts}</h2>
             <p>Featured Posts</p>
           </div>
 

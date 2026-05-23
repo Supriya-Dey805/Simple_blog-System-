@@ -41,6 +41,21 @@ const PostCard = ({ post }) => {
     }
   };
 
+  const toggleBookmark = (post) => {
+
+  let saved = JSON.parse(localStorage.getItem("bookmarks")) || [];
+
+  const exists = saved.find(p => p._id === post._id);
+
+  if(exists){
+    saved = saved.filter(p => p._id !== post._id);
+  } else {
+    saved.push(post);
+  }
+
+  localStorage.setItem("bookmarks", JSON.stringify(saved));
+};
+
   return (
 
     <Card
@@ -170,7 +185,7 @@ const PostCard = ({ post }) => {
 
               <Badge
                 key={index}
-                color="light"
+                color="dark"
                 className="me-2"
                 style={{
                   padding: "8px",
@@ -239,6 +254,9 @@ const PostCard = ({ post }) => {
           >
             🗑 Delete
           </Button>
+          <button onClick={() => toggleBookmark(post)}>
+  🔖 Bookmark
+</button>
 
         </div>
 

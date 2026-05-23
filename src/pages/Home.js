@@ -12,24 +12,82 @@ const Home = () => {
 
   const [selectedCategory, setSelectedCategory] = useState("All");
 
+  const [loading, setLoading] = useState(true);
+
+  const btn = {
+    background: "#2563eb",
+    color: "white",
+    padding: "10px 18px",
+    borderRadius: "8px",
+    textDecoration: "none",
+    display: "inline-block",
+    marginTop: "15px"
+  };
+
   useEffect(() => {
     fetchPosts();
   }, []);
 
   const fetchPosts = async () => {
 
+    setLoading(true);
+
     try {
 
       const res = await API.get("/posts");
 
-      setPosts(res.data);
+      // ONLY PUBLISHED POSTS
+      const publishedPosts = res.data.filter(
+        (p) => p.status === "published"
+      );
+
+      setPosts(publishedPosts);
 
     } catch (error) {
 
       console.log(error);
 
+    } finally {
+
+      setLoading(false);
+
     }
   };
+
+  const isLoggedIn = localStorage.getItem("isLoggedIn");
+
+  if (!isLoggedIn) {
+
+    return <Navigate to="/login" />;
+  }
+
+  if (loading) {
+
+    return <h2 style={{ textAlign: "center" }}>Loading posts...</h2>;
+  }
+
+  if (posts.length === 0) {
+
+    return (
+
+      <div style={{ textAlign: "center", marginTop: "60px" }}>
+
+        <img
+          src="https://cdn-icons-png.flaticon.com/512/6134/6134065.png"
+          width="120"
+        />
+
+        <h2>No posts found</h2>
+
+        <p>Try adjusting search or create a new blog</p>
+
+        <a href="/create" style={btn}>
+          ➕ Create Post
+        </a>
+
+      </div>
+    );
+  }
 
   // FILTER POSTS
   const filteredPosts = posts.filter((post) => {
@@ -59,147 +117,139 @@ const Home = () => {
     return matchesSearch && matchesCategory;
   });
 
-  const isLoggedIn = localStorage.getItem("isLoggedIn");
-
-if(!isLoggedIn){
-
-  return <Navigate to="/login" />;
-}
   return (
 
     <Base>
 
+      {/* HERO SECTION */}
 
-    {/* HERO SECTION */}
+      <div
+        style={{
+          background: "linear-gradient(to right, #141e30, #243b55)",
+          color: "white",
+          padding: "60px 30px",
+          borderRadius: "20px",
+          marginBottom: "40px",
+          textAlign: "center",
+          boxShadow: "0px 8px 25px rgba(0,0,0,0.3)"
+        }}
+      >
 
-<div
-  style={{
-    background: "linear-gradient(to right, #141e30, #243b55)",
-    color: "white",
-    padding: "60px 30px",
-    borderRadius: "20px",
-    marginBottom: "40px",
-    textAlign: "center",
-    boxShadow: "0px 8px 25px rgba(0,0,0,0.3)"
-  }}
->
+        <h1
+          style={{
+            fontSize: "52px",
+            fontWeight: "bold",
+            marginBottom: "20px"
+          }}
+        >
+          Share Your Ideas With The World 🌍
+        </h1>
 
-  <h1
-    style={{
-      fontSize: "52px",
-      fontWeight: "bold",
-      marginBottom: "20px"
-    }}
-  >
-    Share Your Ideas With The World 🌍
-  </h1>
+        <p
+          style={{
+            fontSize: "20px",
+            color: "#ddd",
+            marginBottom: "30px"
+          }}
+        >
+          Discover trending blogs, write stories, and inspire readers.
+        </p>
 
-  <p
-    style={{
-      fontSize: "20px",
-      color: "#ddd",
-      marginBottom: "30px"
-    }}
-  >
-    Discover trending blogs, write stories, and inspire readers.
-  </p>
+        <a
+          href="/create"
+          style={{
+            background: "#00d4ff",
+            color: "black",
+            padding: "14px 28px",
+            borderRadius: "12px",
+            textDecoration: "none",
+            fontWeight: "bold",
+            fontSize: "18px"
+          }}
+        >
+          ✍ Create New Blog
+        </a>
 
-  <a
-    href="/create"
-    style={{
-      background: "#00d4ff",
-      color: "black",
-      padding: "14px 28px",
-      borderRadius: "12px",
-      textDecoration: "none",
-      fontWeight: "bold",
-      fontSize: "18px"
-    }}
-  >
-    ✍ Create New Blog
-  </a>
-
-</div>
-
+      </div>
 
       {/* SEARCH + CATEGORY SECTION */}
 
-<div
-  style={{
-    display: "flex",
-    justifyContent: "space-between",
-    alignItems: "center",
-    marginBottom: "35px",
-    flexWrap: "wrap",
-    gap: "20px"
-  }}
->
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          marginBottom: "35px",
+          flexWrap: "wrap",
+          gap: "20px"
+        }}
+      >
 
-  {/* SEARCH BAR */}
-  <input
-    type="text"
-    placeholder="Search blogs, technology, AI, travel, coding..."
-    value={search}
-    onChange={(e) => setSearch(e.target.value)}
-    style={{
-      padding: "14px",
-      width: "420px",
-      borderRadius: "12px",
-      border: "1px solid #ccc",
-      outline: "none",
-      boxShadow: "0px 4px 12px rgba(0,0,0,0.1)",
-      fontSize: "15px"
-    }}
-  />
+        {/* SEARCH BAR */}
+        <input
+          type="text"
+          placeholder="Search blogs, technology, AI, travel, coding..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          style={{
+            padding: "14px",
+            width: "420px",
+            borderRadius: "12px",
+            border: "1px solid #ccc",
+            outline: "none",
+            boxShadow: "0px 4px 12px rgba(0,0,0,0.1)",
+            fontSize: "15px"
+          }}
+        />
 
-  {/* CATEGORY DROPDOWN */}
-  <select
-    value={selectedCategory}
-    onChange={(e) => setSelectedCategory(e.target.value)}
-    style={{
-      padding: "14px",
-      borderRadius: "12px",
-      border: "1px solid #ccc",
-      outline: "none",
-      boxShadow: "0px 4px 12px rgba(0,0,0,0.1)",
-      minWidth: "220px",
-      fontWeight: "bold"
-    }}
-  >
+        {/* CATEGORY DROPDOWN */}
+        <select
+          value={selectedCategory}
+          onChange={(e) => setSelectedCategory(e.target.value)}
+          style={{
+            padding: "14px",
+            borderRadius: "12px",
+            border: "1px solid #ccc",
+            outline: "none",
+            boxShadow: "0px 4px 12px rgba(0,0,0,0.1)",
+            minWidth: "220px",
+            fontWeight: "bold"
+          }}
+        >
 
-    <option value="All">All Topics</option>
+          <option value="All">All Topics</option>
 
-    <option value="Technology">Technology</option>
+          <option value="Technology">Technology</option>
 
-    <option value="Artificial Intelligence">Artificial Intelligence</option>
+          <option value="Artificial Intelligence">Artificial Intelligence</option>
 
-    <option value="Programming">Programming</option>
+          <option value="Programming">Programming</option>
 
-    <option value="Cyber Security">Cyber Security</option>
+          <option value="Cyber Security">Cyber Security</option>
 
-    <option value="Cloud Computing">Cloud Computing</option>
+          <option value="Cloud Computing">Cloud Computing</option>
 
-    <option value="Travel">Travel</option>
+          <option value="Travel">Travel</option>
 
-    <option value="Lifestyle">Lifestyle</option>
+          <option value="Lifestyle">Lifestyle</option>
 
-    <option value="Fitness">Fitness</option>
+          <option value="Fitness">Fitness</option>
 
-    <option value="Education">Education</option>
+          <option value="Education">Education</option>
 
-    <option value="Study">Study</option>
+          <option value="Study">Study</option>
 
-    <option value="Business">Business</option>
+          <option value="Business">Business</option>
 
-    <option value="Finance">Finance</option>
+          <option value="Finance">Finance</option>
 
-    <option value="Sports">Sports</option>
+          <option value="Sports">Sports</option>
 
-    <option value="Food">Food</option>
+          <option value="Food">Food</option>
 
-  </select>
+        </select>
 
-</div>
+      </div>
 
       {/* FEATURED POSTS */}
       <div style={{ marginBottom: "40px" }}>
@@ -223,33 +273,34 @@ if(!isLoggedIn){
         }
 
       </div>
+
       {/* TRENDING POSTS */}
 
-<div style={{ marginBottom: "40px" }}>
+      <div style={{ marginBottom: "40px" }}>
 
-  <h2
-    style={{
-      marginBottom: "20px",
-      color: "#ff5722",
-      fontWeight: "bold"
-    }}
-  >
-    🔥 Trending Blogs
-  </h2>
+        <h2
+          style={{
+            marginBottom: "20px",
+            color: "#ff5722",
+            fontWeight: "bold"
+          }}
+        >
+          🔥 Trending Blogs
+        </h2>
 
-  {
-    [...filteredPosts]
-      .sort((a, b) => b.likes - a.likes)
-      .slice(0, 3)
-      .map((post) => (
-        <PostCard
-          key={post._id}
-          post={post}
-        />
-      ))
-  }
+        {
+          [...filteredPosts]
+            .sort((a, b) => b.likes - a.likes)
+            .slice(0, 3)
+            .map((post) => (
+              <PostCard
+                key={post._id}
+                post={post}
+              />
+            ))
+        }
 
-</div>
+      </div>
 
       {/* ALL POSTS */}
       <div>
@@ -262,20 +313,6 @@ if(!isLoggedIn){
         >
           📚 Latest Blogs
         </h2>
-
-        {filteredPosts.length === 0 && (
-
-          <div
-            style={{
-              textAlign: "center",
-              marginTop: "50px",
-              color: "#777"
-            }}
-          >
-            <h3>No posts found 😢</h3>
-          </div>
-
-        )}
 
         {
           filteredPosts.map((post) => (
@@ -311,8 +348,10 @@ const styles = {
     fontWeight: "bold",
 
     transition: "0.3s",
-boxShadow: "0px 4px 12px rgba(0,0,0,0.2)"
+
+    boxShadow: "0px 4px 12px rgba(0,0,0,0.2)"
   }
+
 };
 
 export default Home;

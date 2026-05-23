@@ -64,105 +64,218 @@ const CreatePost = () => {
 
     <Base>
 
-      <h1>Create New Blog Post</h1>
+      <div
+        style={{
+          minHeight: "100vh",
+          background: "linear-gradient(to right, #141e30, #243b55)",
+          padding: "40px 20px"
+        }}
+      >
 
-      <form onSubmit={handleSubmit} style={{ maxWidth: "600px" }}>
+        <div
+          style={{
+            maxWidth: "700px",
+            margin: "auto",
+            background: "white",
+            padding: "40px",
+            borderRadius: "20px",
+            boxShadow: "0px 8px 25px rgba(0,0,0,0.3)"
+          }}
+        >
 
-        <input
-          type="text"
-          name="title"
-          placeholder="Post Title"
-          value={formData.title}
-          onChange={handleChange}
-          required
-        />
+          <h1
+            style={{
+              textAlign: "center",
+              marginBottom: "30px",
+              fontWeight: "bold",
+              color: "#203a43"
+            }}
+          >
+            ✍ Create New Blog Post
+          </h1>
 
-        <input
-  type="text"
-  name="author"
-  placeholder="Author Name"
-  value={formData.author}
-  onChange={handleChange}
-  required
-/>
+          <form onSubmit={handleSubmit}>
 
+            <input
+              type="text"
+              name="title"
+              placeholder="Post Title"
+              value={formData.title}
+              onChange={handleChange}
+              required
+              style={styles.input}
+            />
 
-        <br /><br />
+            <input
+              type="text"
+              name="author"
+              placeholder="Author Name"
+              value={formData.author}
+              onChange={handleChange}
+              required
+              style={styles.input}
+            />
 
-        <textarea
-          name="content"
-          placeholder="Write content..."
-          rows="6"
-          value={formData.content}
-          onChange={handleChange}
-          required
-        />
+            <textarea
+              name="content"
+              placeholder="Write content..."
+              rows="6"
+              value={formData.content}
+              onChange={handleChange}
+              required
+              style={styles.textarea}
+            />
 
-        <br /><br />
+            <input
+              type="text"
+              name="category"
+              placeholder="Category"
+              value={formData.category}
+              onChange={handleChange}
+              style={styles.input}
+            />
 
-        <input
-          type="text"
-          name="category"
-          placeholder="Category"
-          value={formData.category}
-          onChange={handleChange}
-        />
+            <input
+              type="text"
+              name="image"
+              placeholder="Paste Image URL"
+              value={formData.image}
+              onChange={handleChange}
+              style={styles.input}
+            />
 
-        <input
-  type="text"
-  name="image"
-  placeholder="Paste Image URL"
-  value={formData.image}
-  onChange={handleChange}
-/>
+            <input
+              type="text"
+              name="tags"
+              placeholder="Tags separated by comma"
+              value={formData.tags}
+              onChange={handleChange}
+              style={styles.input}
+            />
 
-        <br /><br />
+            <select
+              name="status"
+              onChange={handleChange}
+              style={styles.input}
+            >
+              <option value="published">Publish</option>
+              <option value="draft">Draft</option>
+            </select>
 
-        <input
-          type="text"
-          name="tags"
-          placeholder="Tags separated by comma"
-          value={formData.tags}
-          onChange={handleChange}
-        />
+            <input
+              type="text"
+              name="readingTime"
+              placeholder="Reading time (5 min)"
+              value={formData.readingTime}
+              onChange={handleChange}
+              style={styles.input}
+            />
 
-        <br /><br />
+            <label
+              style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "10px",
+                marginTop: "15px",
+                fontWeight: "bold",
+                color: "#333"
+              }}
+            >
 
-        <input
-          type="text"
-          name="readingTime"
-          placeholder="Reading time (5 min)"
-          value={formData.readingTime}
-          onChange={handleChange}
-        />
+              <input
+                type="checkbox"
+                name="isFeatured"
+                checked={formData.isFeatured}
+                onChange={handleChange}
+              />
 
-        <br /><br />
+              Featured Post
 
-        <label>
+            </label>
 
-          <input
-            type="checkbox"
-            name="isFeatured"
-            checked={formData.isFeatured}
-            onChange={handleChange}
-          />
+            <button
+              type="submit"
+              style={styles.button}
+            >
+              🚀 Create Post
+            </button>
 
-          Featured Post
+          </form>
 
-        </label>
+        </div>
 
-        <br /><br />
-
-        <button type="submit">
-          Create Post
-        </button>
-
-      </form>
+      </div>
 
     </Base>
   );
 };
 
-export default CreatePost;
+const styles = {
 
-//814118 
+  input: {
+
+    width: "100%",
+
+    padding: "14px",
+
+    marginBottom: "20px",
+
+    borderRadius: "12px",
+
+    border: "1px solid #ccc",
+
+    outline: "none",
+
+    fontSize: "15px",
+
+    boxShadow: "0px 4px 10px rgba(0,0,0,0.08)"
+  },
+
+  textarea: {
+
+    width: "100%",
+
+    padding: "14px",
+
+    marginBottom: "20px",
+
+    borderRadius: "12px",
+
+    border: "1px solid #ccc",
+
+    outline: "none",
+
+    fontSize: "15px",
+
+    resize: "none",
+
+    boxShadow: "0px 4px 10px rgba(0,0,0,0.08)"
+  },
+
+  button: {
+
+    width: "100%",
+
+    padding: "15px",
+
+    border: "none",
+
+    borderRadius: "12px",
+
+    background: "linear-gradient(to right, #141e30, #243b55)",
+
+    color: "white",
+
+    fontWeight: "bold",
+
+    fontSize: "16px",
+
+    marginTop: "25px",
+
+    cursor: "pointer",
+
+    transition: "0.3s"
+  }
+};
+
+export default CreatePost;

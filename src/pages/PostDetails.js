@@ -10,155 +10,117 @@ const PostDetails = () => {
   const { id } = useParams();
 
   const [post, setPost] = useState(null);
-
   const [comment, setComment] = useState("");
-
   const [username, setUsername] = useState("");
   const [relatedPosts, setRelatedPosts] = useState([]);
+
+  // FIX: button style added
+  const btn = {
+    padding: "10px 16px",
+    marginRight: "10px",
+    border: "none",
+    borderRadius: "8px",
+    background: "#203a43",
+    color: "white",
+    cursor: "pointer",
+    fontWeight: "bold"
+  };
 
   useEffect(() => {
     loadPost();
   }, []);
 
-const loadPost = async () => {
+  const loadPost = async () => {
+    try {
+      const res = await API.get(`/posts/${id}`);
+      setPost(res.data);
 
-  try {
+      // RELATED POSTS
+      const related = await API.get("/posts");
 
-    const res = await API.get(`/posts/${id}`);
+      const filtered = related.data.filter(
+        (p) =>
+          p.category === res.data.category &&
+          p._id !== res.data._id
+      );
 
-    setPost(res.data);
+      setRelatedPosts(filtered.slice(0, 3));
 
-    // RELATED POSTS
-
-    const related = await API.get("/posts");
-
-    const filtered = related.data.filter(
-      (p) =>
-        p.category === res.data.category &&
-        p._id !== res.data._id
-    );
-
-    setRelatedPosts(filtered.slice(0,3));
-
-  } catch (error) {
-
-    console.log(error);
-
-  }
-};
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   const handleComment = async () => {
-
-    if(!username || !comment){
-
+    if (!username || !comment) {
       return;
     }
 
     try {
-
       await addComment(id, {
         username,
         text: comment
       });
 
       loadPost();
-
       setComment("");
-
       setUsername("");
 
     } catch (error) {
-
       console.log(error);
-
     }
   };
 
-  if(!post){
+  const copyLink = () => {
+    navigator.clipboard.writeText(window.location.href);
+    alert("Link copied!");
+  };
 
+  const shareWhatsApp = () => {
+    const url = window.location.href;
+    window.open(`https://wa.me/?text=${url}`, "_blank");
+  };
+
+  const shareTwitter = () => {
+    const url = window.location.href;
+    window.open(`https://twitter.com/intent/tweet?url=${url}`, "_blank");
+  };
+
+  if (!post) {
     return <h2>Loading...</h2>;
   }
 
   return (
-
     <Base>
+      <div style={{ maxWidth: "900px", margin: "auto", padding: "30px" }}>
 
-      <div
-        style={{
-          maxWidth: "900px",
-          margin: "auto",
-          padding: "30px"
-        }}
-      >
-
-        <p
-          style={{
-            color: "#777",
-            fontWeight: "bold"
-          }}
-        >
+        <p style={{ color: "#777", fontWeight: "bold" }}>
           {post.category}
         </p>
 
-        <h1
-          style={{
-            fontSize: "52px",
-            fontWeight: "bold",
-            marginBottom: "25px"
-          }}
-        >
+        <h1 style={{ fontSize: "52px", fontWeight: "bold", marginBottom: "25px" }}>
           {post.title}
         </h1>
 
-        <p
-  style={{
-    color: "#777",
-    fontSize: "18px"
-  }}
->
-  ✍ By {post.author}
-</p>
+        <p style={{ color: "#777", fontSize: "18px" }}>
+          ✍ By {post.author}
+        </p>
 
-        <div
-          style={{
-            display: "flex",
-            gap: "20px",
-            marginBottom: "20px",
-            color: "#666"
-          }}
-        >
+        <div style={{ display: "flex", gap: "20px", marginBottom: "20px", color: "#666" }}>
           <span>❤️ {post.likes} Likes</span>
-
           <span>📚 {post.readingTime}</span>
-
-          <span>
-            🕒 {new Date(post.createdAt).toLocaleDateString()}
-          </span>
+          <span>🕒 {new Date(post.createdAt).toLocaleDateString()}</span>
         </div>
 
-        <hr/>
+        <hr />
 
-        <p
-          style={{
-            lineHeight: "38px",
-            fontSize: "20px",
-            color: "#333",
-            marginTop: "30px"
-          }}
-        >
+        <p style={{ lineHeight: "38px", fontSize: "20px", color: "#333", marginTop: "30px" }}>
           {post.content}
         </p>
 
-        <div
-          style={{
-            marginTop: "40px"
-          }}
-        >
-
-          {
-            post.tags &&
+        <div style={{ marginTop: "40px" }}>
+          {post.tags &&
             post.tags.map((tag, index) => (
-
               <span
                 key={index}
                 style={{
@@ -170,69 +132,41 @@ const loadPost = async () => {
               >
                 #{tag}
               </span>
-
-            ))
-          }
-
+            ))}
         </div>
 
-        <div
-  style={{
-    marginTop: "70px"
-  }}
->
+        {/* RELATED POSTS */}
+        <div style={{ marginTop: "70px" }}>
+          <h2 style={{ marginBottom: "25px", fontWeight: "bold" }}>
+            🔥 Related Posts
+          </h2>
 
-  <h2
-    style={{
-      marginBottom: "25px",
-      fontWeight: "bold"
-    }}
-  >
-    🔥 Related Posts
-  </h2>
+          {relatedPosts.map((item) => (
+            <div
+              key={item._id}
+              style={{
+                padding: "18px",
+                border: "1px solid #ddd",
+                borderRadius: "12px",
+                marginBottom: "15px"
+              }}
+            >
+              <h4>{item.title}</h4>
+              <p>{item.category}</p>
+            </div>
+          ))}
+        </div>
 
-  {
-    relatedPosts.map((item) => (
-
-      <div
-        key={item._id}
-        style={{
-          padding: "18px",
-          border: "1px solid #ddd",
-          borderRadius: "12px",
-          marginBottom: "15px"
-        }}
-      >
-
-        <h4>
-          {item.title}
-        </h4>
-
-        <p>
-          {item.category}
-        </p>
-
-      </div>
-
-    ))
-  }
-
-</div>
+        {/* SHARE BUTTONS */}
+        <div style={{ marginTop: "20px" }}>
+          <button onClick={copyLink} style={btn}>📋 Copy Link</button>
+          <button onClick={shareWhatsApp} style={btn}>📱 WhatsApp</button>
+          <button onClick={shareTwitter} style={btn}>🐦 Twitter</button>
+        </div>
 
         {/* COMMENTS SECTION */}
-
-        <div
-          style={{
-            marginTop: "60px"
-          }}
-        >
-
-          <h2
-            style={{
-              marginBottom: "25px",
-              fontWeight: "bold"
-            }}
-          >
+        <div style={{ marginTop: "60px" }}>
+          <h2 style={{ marginBottom: "25px", fontWeight: "bold" }}>
             💬 Comments
           </h2>
 
@@ -278,16 +212,9 @@ const loadPost = async () => {
             Add Comment
           </button>
 
-          <div
-            style={{
-              marginTop: "40px"
-            }}
-          >
-
-            {
-              post.comments &&
+          <div style={{ marginTop: "40px" }}>
+            {post.comments &&
               post.comments.map((c, index) => (
-
                 <div
                   key={index}
                   style={{
@@ -297,30 +224,14 @@ const loadPost = async () => {
                     marginBottom: "15px"
                   }}
                 >
-
-                  <h5
-                    style={{
-                      fontWeight: "bold"
-                    }}
-                  >
-                    {c.username}
-                  </h5>
-
-                  <p>
-                    {c.text}
-                  </p>
-
+                  <h5 style={{ fontWeight: "bold" }}>{c.username}</h5>
+                  <p>{c.text}</p>
                 </div>
-
-              ))
-            }
-
+              ))}
           </div>
 
         </div>
-
       </div>
-
     </Base>
   );
 };

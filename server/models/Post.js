@@ -40,12 +40,18 @@ author: {
   required: true
 },
 
-
-  createdAt: {
+createdAt: {
     type: Date,
     default: Date.now
-  }
+  },
+
+  status: {
+  type: String,
+  default: "published"
+},
+
 });
+
 
 
 
