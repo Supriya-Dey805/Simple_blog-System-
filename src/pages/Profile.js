@@ -6,7 +6,8 @@ const Profile = () => {
 
   const [userPosts, setUserPosts] = useState([]);
 
-  const username = localStorage.getItem("username");
+ const username =
+  localStorage.getItem("username") || "Guest User";
 
   const [profileImage, setProfileImage] = useState(
   localStorage.getItem("profileImage") ||
@@ -97,19 +98,40 @@ const Profile = () => {
 
           <img
   src={profileImage}
-            alt="profile"
-            width="120"
-          />
-
-          <input
-  type="file"
-  accept="image/*"
-  onChange={handleProfileImage}
+  alt="profile"
   style={{
-    marginTop: "15px",
-    color: "white"
+    width: "130px",
+    height: "130px",
+    borderRadius: "50%",
+    objectFit: "cover",
+    border: "4px solid white",
+    boxShadow: "0px 4px 15px rgba(0,0,0,0.3)"
   }}
 />
+
+<br /><br />
+
+<label
+  style={{
+    background: "#00d4ff",
+    color: "black",
+    padding: "10px 18px",
+    borderRadius: "10px",
+    cursor: "pointer",
+    fontWeight: "bold"
+  }}
+>
+  📷 Change Photo
+
+  <input
+    type="file"
+    accept="image/*"
+    onChange={handleProfileImage}
+    hidden
+  />
+</label>
+
+          
 
           <h1
             style={{
@@ -123,6 +145,15 @@ const Profile = () => {
           <p>
             Full Stack Blog Developer 🚀
           </p>
+
+          <p
+  style={{
+    color: "#ddd",
+    marginTop: "10px"
+  }}
+>
+  📧 {localStorage.getItem("email")}
+</p>
 
         </div>
 
