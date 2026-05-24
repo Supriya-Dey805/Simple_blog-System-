@@ -134,46 +134,43 @@ const CustomNavbar = () => {
   </NavLink>
 </NavItem>
 
-<Button
-  color="danger"
-  onClick={logout}
->
-  Logout
-</Button>
+<UncontrolledDropdown nav inNavbar>
 
-            <UncontrolledDropdown nav inNavbar>
+  <DropdownToggle nav caret>
 
-              <DropdownToggle nav caret>
+    Explore
 
-                Explore
+  </DropdownToggle>
 
-              </DropdownToggle>
+  <DropdownMenu end>
 
-              <DropdownMenu end>
+    <DropdownItem tag={ReactLink} to="/home">
 
-                <DropdownItem tag={ReactLink} to="/home">
+      📚 All Posts
 
-                  All Posts
+    </DropdownItem>
 
-                </DropdownItem>
+    <DropdownItem tag={ReactLink} to="/create">
 
-                <DropdownItem tag={ReactLink} to="/create">
+      ✍ Write Blog
 
-                  Write Blog
+    </DropdownItem>
 
-                </DropdownItem>
+    <DropdownItem tag={ReactLink} to="/bookmarks">
 
-                <DropdownItem divider />
+      🔖 Bookmarks
 
-                <DropdownItem disabled>
+    </DropdownItem>
 
-                  More coming soon
+    <DropdownItem onClick={logout}>
 
-                </DropdownItem>
+      🚪 Logout
 
-              </DropdownMenu>
+    </DropdownItem>
 
-            </UncontrolledDropdown>
+  </DropdownMenu>
+
+</UncontrolledDropdown>
 
           </Nav>
 

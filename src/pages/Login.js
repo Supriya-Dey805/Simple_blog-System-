@@ -45,12 +45,19 @@ const Login = () => {
     try {
 
       const res = await API.post("/auth/login", data);
+      console.log(res.data);
 
       // SAVE TOKEN
       localStorage.setItem("token", res.data.token);
 
       // SAVE LOGIN STATUS
       localStorage.setItem("isLoggedIn", "true");
+
+      // SAVE USERNAME
+      localStorage.setItem(
+  "username",
+  res.data.user?.username || "Sup"
+);
 
       setPopup(true);
 
@@ -77,60 +84,81 @@ const Login = () => {
       <div
         style={{
           minHeight: "100vh",
-          background: "linear-gradient(to right, #0f2027, #203a43, #2c5364)",
-          paddingTop: "40px",
-          paddingBottom: "40px",
+          background: "linear-gradient(135deg, #0f172a, #1e293b, #334155)",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          padding: "20px"
         }}
       >
 
         <Container>
 
-          <Row className="mt-5">
+          <Row className="justify-content-center">
 
-            <Col sm={{ size: 5, offset: 3 }}>
+            <Col lg="5" md="7">
 
               <Card
                 style={{
-                  borderRadius: "20px",
-                  background: "rgba(255,255,255,0.1)",
-                  backdropFilter: "blur(12px)",
+                  borderRadius: "28px",
+                  background: "rgba(255,255,255,0.08)",
+                  backdropFilter: "blur(18px)",
+                  border: "1px solid rgba(255,255,255,0.15)",
                   color: "white",
-                  boxShadow: "0px 8px 25px rgba(0,0,0,0.4)",
-                  overflow: "hidden",
+                  boxShadow: "0px 15px 40px rgba(0,0,0,0.45)",
+                  overflow: "hidden"
                 }}
               >
 
                 <CardHeader
                   className="text-center"
                   style={{
-                    fontSize: "30px",
-                    fontWeight: "bold",
                     background: "transparent",
-                    borderBottom: "1px solid rgba(255,255,255,0.2)",
+                    borderBottom: "1px solid rgba(255,255,255,0.1)",
+                    padding: "35px 20px"
                   }}
                 >
-                  🔐 Welcome Back
-                </CardHeader>
 
-                <CardBody>
-
-                  <p
-                    className="text-center"
+                  <h1
                     style={{
-                      color: "#ddd",
-                      marginBottom: "25px"
+                      fontWeight: "bold",
+                      fontSize: "38px",
+                      marginBottom: "10px",
+                      letterSpacing: "1px"
                     }}
                   >
-                    Login to continue your journey
+                    🔐 Welcome Back
+                  </h1>
+
+                  <p
+                    style={{
+                      color: "#cbd5e1",
+                      marginBottom: "0px",
+                      fontSize: "16px"
+                    }}
+                  >
+                    Login to continue your blogging journey
                   </p>
+
+                </CardHeader>
+
+                <CardBody style={{ padding: "35px" }}>
 
                   <Form onSubmit={handleLogin}>
 
                     {/* EMAIL */}
 
-                    <FormGroup>
+                    <FormGroup style={{ marginBottom: "25px" }}>
 
-                      <Label>Email</Label>
+                      <Label
+                        style={{
+                          marginBottom: "10px",
+                          fontWeight: "600",
+                          color: "#e2e8f0"
+                        }}
+                      >
+                        Email Address
+                      </Label>
 
                       <Input
                         type="email"
@@ -145,9 +173,17 @@ const Login = () => {
 
                     {/* PASSWORD */}
 
-                    <FormGroup>
+                    <FormGroup style={{ marginBottom: "25px" }}>
 
-                      <Label>Password</Label>
+                      <Label
+                        style={{
+                          marginBottom: "10px",
+                          fontWeight: "600",
+                          color: "#e2e8f0"
+                        }}
+                      >
+                        Password
+                      </Label>
 
                       <Input
                         type="password"
@@ -160,26 +196,37 @@ const Login = () => {
 
                     </FormGroup>
 
-                    {/* EXTRA OPTIONS */}
+                    {/* OPTIONS */}
 
                     <div
                       style={{
-                        display:"flex",
-                        justifyContent:"space-between",
-                        marginBottom:"20px",
-                        fontSize:"14px"
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                        marginBottom: "30px",
+                        fontSize: "14px",
+                        color: "#cbd5e1"
                       }}
                     >
 
-                      <label>
-                        <input type="checkbox" /> Remember Me
+                      <label
+                        style={{
+                          display: "flex",
+                          alignItems: "center",
+                          gap: "8px",
+                          cursor: "pointer"
+                        }}
+                      >
+                        <input type="checkbox" />
+                        Remember Me
                       </label>
 
                       <a
                         href="/"
                         style={{
-                          color:"#00d4ff",
-                          textDecoration:"none"
+                          color: "#38bdf8",
+                          textDecoration: "none",
+                          fontWeight: "600"
                         }}
                       >
                         Forgot Password?
@@ -187,40 +234,50 @@ const Login = () => {
 
                     </div>
 
-                    {/* BUTTONS */}
+                    {/* LOGIN BUTTON */}
 
-                    <Container className="text-center">
+                    <Button
+                      type="submit"
+                      style={styles.loginButton}
+                    >
+                      🚀 Login
+                    </Button>
 
-                      <Button
-                        color="primary"
-                        type="submit"
-                        style={styles.button}
-                      >
-                        Login
-                      </Button>
+                    {/* GOOGLE BUTTON */}
 
-                      <Button
-                        color="light"
-                        className="ms-3"
-                        style={styles.button}
-                      >
-                        Continue with Google
-                      </Button>
-
-                    </Container>
+                    <Button
+                      type="button"
+                      style={styles.googleButton}
+                    >
+                      🌐 Continue with Google
+                    </Button>
 
                   </Form>
 
-                  {/* SIGNUP LINK */}
+                  {/* SIGNUP */}
 
-                  <p
+                  <div
                     style={{
-                      textAlign:"center",
-                      marginTop:"20px"
+                      textAlign: "center",
+                      marginTop: "28px",
+                      color: "#cbd5e1"
                     }}
                   >
-                    New user? <Link to="/signup">Create account</Link>
-                  </p>
+
+                    New user?{" "}
+
+                    <Link
+                      to="/signup"
+                      style={{
+                        color: "#38bdf8",
+                        fontWeight: "bold",
+                        textDecoration: "none"
+                      }}
+                    >
+                      Create account
+                    </Link>
+
+                  </div>
 
                 </CardBody>
 
@@ -232,7 +289,7 @@ const Login = () => {
 
         </Container>
 
-        {/* SUCCESS POPUP */}
+        {/* POPUP */}
 
         {popup && (
 
@@ -252,45 +309,84 @@ const styles = {
 
   input: {
 
-    borderRadius: "10px",
+    borderRadius: "14px",
 
-    padding: "12px",
+    padding: "14px",
+
+    border: "1px solid rgba(255,255,255,0.15)",
+
+    background: "rgba(255,255,255,0.08)",
+
+    color: "white",
+
+    fontSize: "15px",
+
+    boxShadow: "0px 4px 12px rgba(0,0,0,0.15)"
+  },
+
+  loginButton: {
+
+    width: "100%",
 
     border: "none",
 
-    marginTop: "5px"
+    borderRadius: "14px",
+
+    padding: "14px",
+
+    fontWeight: "bold",
+
+    fontSize: "16px",
+
+    background: "linear-gradient(to right, #06b6d4, #3b82f6)",
+
+    marginBottom: "18px",
+
+    boxShadow: "0px 8px 20px rgba(59,130,246,0.4)"
   },
 
-  button: {
+  googleButton: {
 
-    borderRadius: "10px",
+    width: "100%",
 
-    padding: "10px 25px",
+    border: "none",
 
-    fontWeight: "bold"
+    borderRadius: "14px",
+
+    padding: "14px",
+
+    fontWeight: "bold",
+
+    fontSize: "16px",
+
+    background: "white",
+
+    color: "#111",
+
+    boxShadow: "0px 4px 12px rgba(255,255,255,0.15)"
   },
 
   popup: {
 
-    position:"fixed",
+    position: "fixed",
 
-    top:"30px",
+    top: "30px",
 
-    right:"30px",
+    right: "30px",
 
-    background:"#00c851",
+    background: "#22c55e",
 
-    color:"white",
+    color: "white",
 
-    padding:"15px 25px",
+    padding: "16px 26px",
 
-    borderRadius:"10px",
+    borderRadius: "14px",
 
-    boxShadow:"0px 4px 12px rgba(0,0,0,0.3)",
+    boxShadow: "0px 8px 20px rgba(0,0,0,0.3)",
 
-    fontWeight:"bold",
+    fontWeight: "bold",
 
-    zIndex:999
+    zIndex: 999
   }
 };
 

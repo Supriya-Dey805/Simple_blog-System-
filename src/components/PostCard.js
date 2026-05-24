@@ -41,16 +41,23 @@ const PostCard = ({ post }) => {
     }
   };
 
-  const toggleBookmark = (post) => {
+ const toggleBookmark = (post) => {
 
   let saved = JSON.parse(localStorage.getItem("bookmarks")) || [];
 
   const exists = saved.find(p => p._id === post._id);
 
-  if(exists){
+  if (exists) {
+
     saved = saved.filter(p => p._id !== post._id);
+
+    alert("Removed from bookmarks");
+
   } else {
+
     saved.push(post);
+
+    alert("Bookmarked successfully");
   }
 
   localStorage.setItem("bookmarks", JSON.stringify(saved));
@@ -254,9 +261,13 @@ const PostCard = ({ post }) => {
           >
             🗑 Delete
           </Button>
-          <button onClick={() => toggleBookmark(post)}>
+          <Button
+  color="warning"
+  onClick={() => toggleBookmark(post)}
+  className="ms-2"
+>
   🔖 Bookmark
-</button>
+</Button>
 
         </div>
 

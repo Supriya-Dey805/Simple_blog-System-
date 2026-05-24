@@ -24,6 +24,7 @@ import Splash from "./pages/Splash";
 import Userdashboard from "./pages/Userdashboard";
 import PostDetails from "./pages/PostDetails";
 import Profile from "./pages/Profile";
+import Bookmarks from "./pages/Bookmarks";
 
 // Components
 import Privateroute from "./components/Privateroute";
@@ -89,6 +90,8 @@ function App() {
           <Route path="/posts/:id" element={<PostDetails />} />
 
           <Route path="/profile" element={<Profile />} />
+
+          <Route path="/bookmarks" element={<Bookmarks />} />
 
           {/* Protected Routes */}
           <Route

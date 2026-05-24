@@ -8,6 +8,11 @@ const Profile = () => {
 
   const username = localStorage.getItem("username");
 
+  const [profileImage, setProfileImage] = useState(
+  localStorage.getItem("profileImage") ||
+  "https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
+);
+
   useEffect(() => {
     fetchUserPosts();
   }, []);
@@ -46,6 +51,27 @@ const Profile = () => {
     (post) => post.isFeatured
   ).length;
 
+  const handleProfileImage = (e) => {
+
+  const file = e.target.files[0];
+
+  const reader = new FileReader();
+
+  reader.onloadend = () => {
+
+    localStorage.setItem(
+      "profileImage",
+      reader.result
+    );
+
+    setProfileImage(reader.result);
+  };
+
+  if(file){
+    reader.readAsDataURL(file);
+  }
+};
+
   return (
 
     <Base>
@@ -70,10 +96,20 @@ const Profile = () => {
         >
 
           <img
-            src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
+  src={profileImage}
             alt="profile"
             width="120"
           />
+
+          <input
+  type="file"
+  accept="image/*"
+  onChange={handleProfileImage}
+  style={{
+    marginTop: "15px",
+    color: "white"
+  }}
+/>
 
           <h1
             style={{
