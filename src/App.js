@@ -1,18 +1,12 @@
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
 import React from "react";
-
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-
 import "bootstrap/dist/css/bootstrap.min.css";
-
 import "./App.css";
 import "./styles/global.css";
-
 import { PostProvider } from "./context/PostContext";
 
-// Pages
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import Signup from "./pages/Signup";
@@ -26,7 +20,6 @@ import PostDetails from "./pages/PostDetails";
 import Profile from "./pages/Profile";
 import Bookmarks from "./pages/Bookmarks";
 
-// Components
 import Privateroute from "./components/Privateroute";
 
 function App() {
@@ -37,7 +30,6 @@ function App() {
 
       <BrowserRouter>
 
-        {/* TOAST CONTAINER */}
         <ToastContainer
           position="top-right"
           autoClose={3000}
@@ -45,13 +37,11 @@ function App() {
 
         <Routes>
 
-          {/* Splash Screen */}
           <Route
             path="/"
             element={<Splash />}
           />
 
-          {/* Public Routes */}
           <Route
             path="/login"
             element={<Login />}
@@ -93,7 +83,6 @@ function App() {
 
           <Route path="/bookmarks" element={<Bookmarks />} />
 
-          {/* Protected Routes */}
           <Route
             path="/user"
             element={<Privateroute />}

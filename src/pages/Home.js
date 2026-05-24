@@ -35,8 +35,6 @@ const Home = () => {
     try {
 
       const res = await API.get("/posts");
-
-      // ONLY PUBLISHED POSTS
       const publishedPosts = res.data.filter(
         (p) => p.status === "published"
       );
@@ -89,7 +87,6 @@ const Home = () => {
     );
   }
 
-  // FILTER POSTS
   const filteredPosts = posts.filter((post) => {
 
     const title = post.title || "";
@@ -98,7 +95,6 @@ const Home = () => {
 
     const category = post.category || "";
 
-    // SEARCH MATCH
     const matchesSearch =
 
       title.toLowerCase().includes(search.toLowerCase()) ||
@@ -107,7 +103,6 @@ const Home = () => {
 
       category.toLowerCase().includes(search.toLowerCase());
 
-    // CATEGORY MATCH
     const matchesCategory =
 
       selectedCategory === "All" ||
@@ -121,7 +116,6 @@ const Home = () => {
 
     <Base>
 
-      {/* HERO SECTION */}
 
       <div
         style={{
@@ -172,8 +166,6 @@ const Home = () => {
 
       </div>
 
-      {/* SEARCH + CATEGORY SECTION */}
-
       <div
         style={{
           display: "flex",
@@ -185,7 +177,6 @@ const Home = () => {
         }}
       >
 
-        {/* SEARCH BAR */}
         <input
           type="text"
           placeholder="Search blogs, technology, AI, travel, coding..."
@@ -202,7 +193,6 @@ const Home = () => {
           }}
         />
 
-        {/* CATEGORY DROPDOWN */}
         <select
           value={selectedCategory}
           onChange={(e) => setSelectedCategory(e.target.value)}
@@ -251,7 +241,6 @@ const Home = () => {
 
       </div>
 
-      {/* FEATURED POSTS */}
       <div style={{ marginBottom: "40px" }}>
 
         <h2
@@ -273,8 +262,6 @@ const Home = () => {
         }
 
       </div>
-
-      {/* TRENDING POSTS */}
 
       <div style={{ marginBottom: "40px" }}>
 
@@ -302,7 +289,6 @@ const Home = () => {
 
       </div>
 
-      {/* ALL POSTS */}
       <div>
 
         <h2

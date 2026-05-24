@@ -14,7 +14,6 @@ const PostDetails = () => {
   const [username, setUsername] = useState("");
   const [relatedPosts, setRelatedPosts] = useState([]);
 
-  // FIX: button style added
   const btn = {
     padding: "10px 16px",
     marginRight: "10px",
@@ -35,7 +34,6 @@ const PostDetails = () => {
       const res = await API.get(`/posts/${id}`);
       setPost(res.data);
 
-      // RELATED POSTS
       const related = await API.get("/posts");
 
       const filtered = related.data.filter(
@@ -135,7 +133,6 @@ const PostDetails = () => {
             ))}
         </div>
 
-        {/* RELATED POSTS */}
         <div style={{ marginTop: "70px" }}>
           <h2 style={{ marginBottom: "25px", fontWeight: "bold" }}>
             🔥 Related Posts
@@ -157,14 +154,12 @@ const PostDetails = () => {
           ))}
         </div>
 
-        {/* SHARE BUTTONS */}
         <div style={{ marginTop: "20px" }}>
           <button onClick={copyLink} style={btn}>📋 Copy Link</button>
           <button onClick={shareWhatsApp} style={btn}>📱 WhatsApp</button>
           <button onClick={shareTwitter} style={btn}>🐦 Twitter</button>
         </div>
 
-        {/* COMMENTS SECTION */}
         <div style={{ marginTop: "60px" }}>
           <h2 style={{ marginBottom: "25px", fontWeight: "bold" }}>
             💬 Comments

@@ -26,14 +26,12 @@ const CustomNavbar = () => {
 
   const toggle = () => setIsOpen(!isOpen);
 
-  // DARK MODE STATE
   const [darkMode, setDarkMode] = useState(
 
     localStorage.getItem("darkMode") === "true"
 
   );
 
-  // APPLY DARK MODE
   useEffect(() => {
 
     if (darkMode) {
@@ -53,7 +51,6 @@ const CustomNavbar = () => {
 
   }, [darkMode]);
 
-  // TOGGLE DARK MODE
   const toggleDarkMode = () => {
 
     setDarkMode(!darkMode);
@@ -62,10 +59,10 @@ const CustomNavbar = () => {
 
   const logout = () => {
 
-  localStorage.removeItem("isLoggedIn");
+    localStorage.removeItem("isLoggedIn");
 
-  window.location.href = "/login";
-};
+    window.location.href = "/login";
+  };
 
   return (
 
@@ -129,52 +126,51 @@ const CustomNavbar = () => {
             </NavItem>
 
             <NavItem>
-  <NavLink tag={ReactLink} to="/profile">
-    Profile
-  </NavLink>
-</NavItem>
+              <NavLink tag={ReactLink} to="/profile">
+                Profile
+              </NavLink>
+            </NavItem>
 
-<UncontrolledDropdown nav inNavbar>
+            <UncontrolledDropdown nav inNavbar>
 
-  <DropdownToggle nav caret>
+              <DropdownToggle nav caret>
 
-    Explore
+                Explore
 
-  </DropdownToggle>
+              </DropdownToggle>
 
-  <DropdownMenu end>
+              <DropdownMenu end>
 
-    <DropdownItem tag={ReactLink} to="/home">
+                <DropdownItem tag={ReactLink} to="/home">
 
-      📚 All Posts
+                  📚 All Posts
 
-    </DropdownItem>
+                </DropdownItem>
 
-    <DropdownItem tag={ReactLink} to="/create">
+                <DropdownItem tag={ReactLink} to="/create">
 
-      ✍ Write Blog
+                  ✍ Write Blog
 
-    </DropdownItem>
+                </DropdownItem>
 
-    <DropdownItem tag={ReactLink} to="/bookmarks">
+                <DropdownItem tag={ReactLink} to="/bookmarks">
 
-      🔖 Bookmarks
+                  🔖 Bookmarks
 
-    </DropdownItem>
+                </DropdownItem>
 
-    <DropdownItem onClick={logout}>
+                <DropdownItem onClick={logout}>
 
-      🚪 Logout
+                  🚪 Logout
 
-    </DropdownItem>
+                </DropdownItem>
 
-  </DropdownMenu>
+              </DropdownMenu>
 
-</UncontrolledDropdown>
+            </UncontrolledDropdown>
 
           </Nav>
 
-          {/* DARK MODE BUTTON */}
           <Button
             color={darkMode ? "light" : "dark"}
             onClick={toggleDarkMode}

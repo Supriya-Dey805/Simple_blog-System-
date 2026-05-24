@@ -6,82 +6,82 @@ import PostCard from "../components/PostCard";
 
 const Bookmarks = () => {
 
-  const [bookmarks, setBookmarks] = useState([]);
+    const [bookmarks, setBookmarks] = useState([]);
 
-  useEffect(() => {
+    useEffect(() => {
 
-    const saved =
-      JSON.parse(localStorage.getItem("bookmarks")) || [];
+        const saved =
+            JSON.parse(localStorage.getItem("bookmarks")) || [];
 
-    setBookmarks(saved);
+        setBookmarks(saved);
 
-  }, []);
+    }, []);
 
-  return (
+    return (
 
-    <Base>
-
-      <div
-        style={{
-          maxWidth: "1100px",
-          margin: "auto",
-          padding: "30px"
-        }}
-      >
-
-        <h1
-          style={{
-            marginBottom: "30px",
-            fontWeight: "bold"
-          }}
-        >
-          🔖 My Bookmarks
-        </h1>
-
-        {
-          bookmarks.length === 0 && (
+        <Base>
 
             <div
-              style={{
-                textAlign: "center",
-                marginTop: "80px",
-                color: "#666"
-              }}
+                style={{
+                    maxWidth: "1100px",
+                    margin: "auto",
+                    padding: "30px"
+                }}
             >
 
-              <img
-                src="https://cdn-icons-png.flaticon.com/512/7486/7486740.png"
-                width="130"
-                alt="empty"
-              />
+                <h1
+                    style={{
+                        marginBottom: "30px",
+                        fontWeight: "bold"
+                    }}
+                >
+                    🔖 My Bookmarks
+                </h1>
 
-              <h2 style={{ marginTop: "20px" }}>
-                No bookmarks yet
-              </h2>
+                {
+                    bookmarks.length === 0 && (
 
-              <p>
-                Save blogs to read later
-              </p>
+                        <div
+                            style={{
+                                textAlign: "center",
+                                marginTop: "80px",
+                                color: "#666"
+                            }}
+                        >
+
+                            <img
+                                src="https://cdn-icons-png.flaticon.com/512/7486/7486740.png"
+                                width="130"
+                                alt="empty"
+                            />
+
+                            <h2 style={{ marginTop: "20px" }}>
+                                No bookmarks yet
+                            </h2>
+
+                            <p>
+                                Save blogs to read later
+                            </p>
+
+                        </div>
+                    )
+                }
+
+                {
+                    bookmarks.map((post) => (
+
+                        <PostCard
+                            key={post._id}
+                            post={post}
+                        />
+
+                    ))
+                }
 
             </div>
-          )
-        }
 
-        {
-          bookmarks.map((post) => (
-
-            <PostCard
-              key={post._id}
-              post={post}
-            />
-
-          ))
-        }
-
-      </div>
-
-    </Base>
-  );
+        </Base>
+    );
 };
 
 export default Bookmarks;

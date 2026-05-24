@@ -6,16 +6,16 @@ const Profile = () => {
 
   const [userPosts, setUserPosts] = useState([]);
 
- const username =
-  localStorage.getItem("username") || "Guest User";
+  const username =
+    localStorage.getItem("username") || "Guest User";
 
   const [profileImage, setProfileImage] = useState(
-  localStorage.getItem("profileImage") ||
-  "https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
-);
+    localStorage.getItem("profileImage") ||
+    "https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
+  );
 
   useEffect(() => {
-    fetchUserPosts();
+    fetchUserPosts();S
   }, []);
 
   const fetchUserPosts = async () => {
@@ -24,7 +24,6 @@ const Profile = () => {
 
       const res = await API.get("/posts");
 
-      // ONLY POSTS OF LOGGED IN USER
       const filtered = res.data.filter(
         (post) => post.author === username
       );
@@ -38,40 +37,40 @@ const Profile = () => {
     }
   };
 
-  // TOTAL POSTS
+
   const totalPosts = userPosts.length;
 
-  // TOTAL LIKES
+
   const totalLikes = userPosts.reduce(
     (sum, post) => sum + post.likes,
     0
   );
 
-  // FEATURED POSTS
+
   const featuredPosts = userPosts.filter(
     (post) => post.isFeatured
   ).length;
 
   const handleProfileImage = (e) => {
 
-  const file = e.target.files[0];
+    const file = e.target.files[0];
 
-  const reader = new FileReader();
+    const reader = new FileReader();
 
-  reader.onloadend = () => {
+    reader.onloadend = () => {
 
-    localStorage.setItem(
-      "profileImage",
-      reader.result
-    );
+      localStorage.setItem(
+        "profileImage",
+        reader.result
+      );
 
-    setProfileImage(reader.result);
+      setProfileImage(reader.result);
+    };
+
+    if (file) {
+      reader.readAsDataURL(file);
+    }
   };
-
-  if(file){
-    reader.readAsDataURL(file);
-  }
-};
 
   return (
 
@@ -97,41 +96,41 @@ const Profile = () => {
         >
 
           <img
-  src={profileImage}
-  alt="profile"
-  style={{
-    width: "130px",
-    height: "130px",
-    borderRadius: "50%",
-    objectFit: "cover",
-    border: "4px solid white",
-    boxShadow: "0px 4px 15px rgba(0,0,0,0.3)"
-  }}
-/>
+            src={profileImage}
+            alt="profile"
+            style={{
+              width: "130px",
+              height: "130px",
+              borderRadius: "50%",
+              objectFit: "cover",
+              border: "4px solid white",
+              boxShadow: "0px 4px 15px rgba(0,0,0,0.3)"
+            }}
+          />
 
-<br /><br />
+          <br /><br />
 
-<label
-  style={{
-    background: "#00d4ff",
-    color: "black",
-    padding: "10px 18px",
-    borderRadius: "10px",
-    cursor: "pointer",
-    fontWeight: "bold"
-  }}
->
-  📷 Change Photo
+          <label
+            style={{
+              background: "#00d4ff",
+              color: "black",
+              padding: "10px 18px",
+              borderRadius: "10px",
+              cursor: "pointer",
+              fontWeight: "bold"
+            }}
+          >
+            📷 Change Photo
 
-  <input
-    type="file"
-    accept="image/*"
-    onChange={handleProfileImage}
-    hidden
-  />
-</label>
+            <input
+              type="file"
+              accept="image/*"
+              onChange={handleProfileImage}
+              hidden
+            />
+          </label>
 
-          
+
 
           <h1
             style={{
@@ -147,13 +146,13 @@ const Profile = () => {
           </p>
 
           <p
-  style={{
-    color: "#ddd",
-    marginTop: "10px"
-  }}
->
-  📧 {localStorage.getItem("email")}
-</p>
+            style={{
+              color: "#ddd",
+              marginTop: "10px"
+            }}
+          >
+            📧 {localStorage.getItem("email")}
+          </p>
 
         </div>
 

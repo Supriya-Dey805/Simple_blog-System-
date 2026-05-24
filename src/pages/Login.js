@@ -24,7 +24,6 @@ const Login = () => {
 
   const [popup, setPopup] = useState(false);
 
-  // LOGIN STATE
   const [data, setData] = useState({
     email: "",
     password: ""
@@ -47,17 +46,14 @@ const Login = () => {
       const res = await API.post("/auth/login", data);
       console.log(res.data);
 
-      // SAVE TOKEN
       localStorage.setItem("token", res.data.token);
 
-      // SAVE LOGIN STATUS
       localStorage.setItem("isLoggedIn", "true");
 
-      // SAVE USERNAME
       localStorage.setItem(
-  "username",
-  res.data.user?.username || "Sup"
-);
+        "username",
+        res.data.user?.username || "Sup"
+      );
 
       setPopup(true);
 
@@ -146,8 +142,7 @@ const Login = () => {
 
                   <Form onSubmit={handleLogin}>
 
-                    {/* EMAIL */}
-
+                    
                     <FormGroup style={{ marginBottom: "25px" }}>
 
                       <Label
@@ -170,8 +165,6 @@ const Login = () => {
                       />
 
                     </FormGroup>
-
-                    {/* PASSWORD */}
 
                     <FormGroup style={{ marginBottom: "25px" }}>
 
@@ -196,7 +189,6 @@ const Login = () => {
 
                     </FormGroup>
 
-                    {/* OPTIONS */}
 
                     <div
                       style={{
@@ -234,8 +226,6 @@ const Login = () => {
 
                     </div>
 
-                    {/* LOGIN BUTTON */}
-
                     <Button
                       type="submit"
                       style={styles.loginButton}
@@ -243,18 +233,18 @@ const Login = () => {
                       🚀 Login
                     </Button>
 
-                    {/* GOOGLE BUTTON */}
 
                     <Button
-                      type="button"
-                      style={styles.googleButton}
+                      color="light"
+                      className="ms-3"
+                      style={styles.button}
+                      onClick={() => alert("Google Login Coming Soon")}
                     >
-                      🌐 Continue with Google
+                      Continue with Google
                     </Button>
 
                   </Form>
 
-                  {/* SIGNUP */}
 
                   <div
                     style={{
@@ -288,8 +278,6 @@ const Login = () => {
           </Row>
 
         </Container>
-
-        {/* POPUP */}
 
         {popup && (
 

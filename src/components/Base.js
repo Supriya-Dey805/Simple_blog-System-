@@ -1,14 +1,14 @@
 import CustomNavbar from "./CustomNavbar";
 import Footer from "./Footer";
 
-const Base = ({title = "welcome to our website", children})=>{
+const Base = ({ title = "welcome to our website", children }) => {
 
-    return(
+    return (
 
         <div
             className="container-fluid p-0 m-0"
             style={{
-                minHeight:"100vh"
+                minHeight: "100vh"
             }}
         >
 

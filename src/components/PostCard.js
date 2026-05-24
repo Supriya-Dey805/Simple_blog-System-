@@ -27,7 +27,7 @@ const PostCard = ({ post }) => {
 
       const confirmDelete = window.confirm("Delete this post?");
 
-      if(confirmDelete){
+      if (confirmDelete) {
 
         await deletePost(post._id);
 
@@ -41,27 +41,27 @@ const PostCard = ({ post }) => {
     }
   };
 
- const toggleBookmark = (post) => {
+  const toggleBookmark = (post) => {
 
-  let saved = JSON.parse(localStorage.getItem("bookmarks")) || [];
+    let saved = JSON.parse(localStorage.getItem("bookmarks")) || [];
 
-  const exists = saved.find(p => p._id === post._id);
+    const exists = saved.find(p => p._id === post._id);
 
-  if (exists) {
+    if (exists) {
 
-    saved = saved.filter(p => p._id !== post._id);
+      saved = saved.filter(p => p._id !== post._id);
 
-    alert("Removed from bookmarks");
+      alert("Removed from bookmarks");
 
-  } else {
+    } else {
 
-    saved.push(post);
+      saved.push(post);
 
-    alert("Bookmarked successfully");
-  }
+      alert("Bookmarked successfully");
+    }
 
-  localStorage.setItem("bookmarks", JSON.stringify(saved));
-};
+    localStorage.setItem("bookmarks", JSON.stringify(saved));
+  };
 
   return (
 
@@ -86,7 +86,6 @@ const PostCard = ({ post }) => {
 
       <CardBody>
 
-        {/* Featured Badge */}
         {post.isFeatured && (
 
           <Badge
@@ -103,7 +102,6 @@ const PostCard = ({ post }) => {
 
         )}
 
-        {/* Category */}
         <p
           style={{
             color: "#777",
@@ -114,24 +112,23 @@ const PostCard = ({ post }) => {
           {post.category}
         </p>
 
-{
-  post.image && (
+        {
+          post.image && (
 
-    <img
-      src={post.image}
-      alt="blog"
-      style={{
-        width: "100%",
-        height: "250px",
-        objectFit: "cover",
-        borderRadius: "12px",
-        marginBottom: "15px"
-      }}
-    />
+            <img
+              src={post.image}
+              alt="blog"
+              style={{
+                width: "100%",
+                height: "250px",
+                objectFit: "cover",
+                borderRadius: "12px",
+                marginBottom: "15px"
+              }}
+            />
 
-  )
-}
-        {/* CLICKABLE TITLE */}
+          )
+        }
         <Link
           to={`/posts/${post._id}`}
           style={{
@@ -153,15 +150,14 @@ const PostCard = ({ post }) => {
         </Link>
 
         <p
-  style={{
-    color: "#666",
-    marginBottom: "10px"
-  }}
->
-  ✍ By {post.author}
-</p>
+          style={{
+            color: "#666",
+            marginBottom: "10px"
+          }}
+        >
+          ✍ By {post.author}
+        </p>
 
-        {/* Content */}
         <p
           style={{
             color: "#444",
@@ -171,7 +167,6 @@ const PostCard = ({ post }) => {
           {post.content.substring(0, 150)}...
         </p>
 
-        {/* Read More */}
         <Link
           to={`/posts/${post._id}`}
           style={{
@@ -207,7 +202,6 @@ const PostCard = ({ post }) => {
 
         </div>
 
-        {/* Extra Info */}
         <div
           style={{
             marginTop: "18px",
@@ -235,7 +229,6 @@ const PostCard = ({ post }) => {
 
         </div>
 
-        {/* Buttons */}
         <div style={{ marginTop: "20px" }}>
 
           <Button
@@ -262,12 +255,12 @@ const PostCard = ({ post }) => {
             🗑 Delete
           </Button>
           <Button
-  color="warning"
-  onClick={() => toggleBookmark(post)}
-  className="ms-2"
->
-  🔖 Bookmark
-</Button>
+            color="warning"
+            onClick={() => toggleBookmark(post)}
+            className="ms-2"
+          >
+            🔖 Bookmark
+          </Button>
 
         </div>
 

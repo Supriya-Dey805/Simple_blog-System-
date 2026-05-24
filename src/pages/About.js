@@ -36,7 +36,7 @@ const About = () => {
           Technology, AI, Travel, Fitness, Education, and more.
         </p>
 
-        <br/>
+        <br />
 
         <h3>✨ Features</h3>
 
@@ -61,7 +61,7 @@ const About = () => {
           <li>MongoDB Database Integration</li>
         </ul>
 
-        <br/>
+        <br />
 
         <h3>🛠 Technologies Used</h3>
 
@@ -82,7 +82,7 @@ const About = () => {
           <li>Bootstrap + Reactstrap</li>
         </ul>
 
-        <br/>
+        <br />
 
         <h3>👨‍💻 Developed By</h3>
 
@@ -91,7 +91,7 @@ const About = () => {
             fontSize: "18px"
           }}
         >
-          Supriya Dey and Yash Raj 
+          Supriya Dey and Yash Raj
         </p>
 
       </div>

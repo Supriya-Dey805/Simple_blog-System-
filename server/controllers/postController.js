@@ -1,7 +1,5 @@
 const Post = require("../models/Post");
 
-
-// CREATE POST
 exports.createPost = async (req, res) => {
 
   try {
@@ -19,8 +17,6 @@ exports.createPost = async (req, res) => {
   }
 };
 
-
-// GET ALL POSTS
 exports.getAllPosts = async (req, res) => {
 
   try {
@@ -38,8 +34,6 @@ exports.getAllPosts = async (req, res) => {
   }
 };
 
-
-// GET SINGLE POST
 exports.getSinglePost = async (req, res) => {
 
   try {
@@ -57,8 +51,6 @@ exports.getSinglePost = async (req, res) => {
   }
 };
 
-
-// UPDATE POST
 exports.updatePost = async (req, res) => {
 
   try {
@@ -80,8 +72,6 @@ exports.updatePost = async (req, res) => {
   }
 };
 
-
-// DELETE POST
 exports.deletePost = async (req, res) => {
 
   try {
@@ -101,8 +91,6 @@ exports.deletePost = async (req, res) => {
   }
 };
 
-
-// LIKE POST
 exports.likePost = async (req, res) => {
 
   try {

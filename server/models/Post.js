@@ -22,39 +22,34 @@ const postSchema = new mongoose.Schema({
     default: false
   },
   comments: [
-  {
-    username: String,
-    text: String,
-    createdAt: {
-      type: Date,
-      default: Date.now
+    {
+      username: String,
+      text: String,
+      createdAt: {
+        type: Date,
+        default: Date.now
+      }
     }
-  }
-],
-image: {
-  type: String
-},
+  ],
+  image: {
+    type: String
+  },
 
-author: {
-  type: String,
-  required: true
-},
+  author: {
+    type: String,
+    required: true
+  },
 
-createdAt: {
+  createdAt: {
     type: Date,
     default: Date.now
   },
 
   status: {
-  type: String,
-  default: "published"
-},
+    type: String,
+    default: "published"
+  },
 
 });
-
-
-
-
-
 
 module.exports = mongoose.model("Post", postSchema);

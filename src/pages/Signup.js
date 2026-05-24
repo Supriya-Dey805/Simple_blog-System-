@@ -23,7 +23,6 @@ const Signup = () => {
   const navigate = useNavigate();
   const [popup, setPopup] = useState(false);
 
-  // NEW → state
   const [data, setData] = useState({
     username: "",
     email: "",
@@ -58,12 +57,12 @@ const Signup = () => {
 
   return (
     <Base>
-      <div style={{minHeight:"100vh",background:"linear-gradient(to right, #141e30, #243b55)",paddingTop:"30px",paddingBottom:"30px"}}>
+      <div style={{ minHeight: "100vh", background: "linear-gradient(to right, #141e30, #243b55)", paddingTop: "30px", paddingBottom: "30px" }}>
         <Container>
           <Row className="mt-4">
             <Col sm={{ size: 6, offset: 3 }}>
-              <Card style={{borderRadius:"20px",overflow:"hidden",boxShadow:"0px 8px 25px rgba(0,0,0,0.4)",background:"rgba(255,255,255,0.1)",backdropFilter:"blur(10px)",color:"white"}}>
-                <CardHeader className="text-center" style={{fontSize:"28px",fontWeight:"bold",background:"transparent",borderBottom:"1px solid rgba(255,255,255,0.2)"}}>
+              <Card style={{ borderRadius: "20px", overflow: "hidden", boxShadow: "0px 8px 25px rgba(0,0,0,0.4)", background: "rgba(255,255,255,0.1)", backdropFilter: "blur(10px)", color: "white" }}>
+                <CardHeader className="text-center" style={{ fontSize: "28px", fontWeight: "bold", background: "transparent", borderBottom: "1px solid rgba(255,255,255,0.2)" }}>
                   🚀 Create Your Account
                 </CardHeader>
 
@@ -89,7 +88,7 @@ const Signup = () => {
 
                     <FormGroup>
                       <Label>About</Label>
-                      <Input type="textarea" id="about" style={{...styles.input,height:"150px"}} onChange={handleChange}/>
+                      <Input type="textarea" id="about" style={{ ...styles.input, height: "150px" }} onChange={handleChange} />
                     </FormGroup>
 
                     <Container className="text-center">
@@ -98,8 +97,7 @@ const Signup = () => {
 
                   </Form>
 
-                  {/* NEW → link to login */}
-                  <p style={{textAlign:"center",marginTop:"20px"}}>
+                  <p style={{ textAlign: "center", marginTop: "20px" }}>
                     Already have an account? <Link to="/login">Login</Link>
                   </p>
 
@@ -116,9 +114,9 @@ const Signup = () => {
 };
 
 const styles = {
-  input:{borderRadius:"10px",padding:"12px",border:"none",marginTop:"5px"},
-  button:{borderRadius:"10px",padding:"10px 25px",fontWeight:"bold"},
-  popup:{position:"fixed",top:"30px",right:"30px",background:"#00c851",color:"white",padding:"15px 25px",borderRadius:"10px",boxShadow:"0px 4px 12px rgba(0,0,0,0.3)",fontWeight:"bold",zIndex:999}
+  input: { borderRadius: "10px", padding: "12px", border: "none", marginTop: "5px" },
+  button: { borderRadius: "10px", padding: "10px 25px", fontWeight: "bold" },
+  popup: { position: "fixed", top: "30px", right: "30px", background: "#00c851", color: "white", padding: "15px 25px", borderRadius: "10px", boxShadow: "0px 4px 12px rgba(0,0,0,0.3)", fontWeight: "bold", zIndex: 999 }
 };
 
 export default Signup;

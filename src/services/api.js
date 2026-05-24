@@ -4,7 +4,6 @@ const API = axios.create({
   baseURL: "http://localhost:5000/api"
 });
 
-// attach token automatically to every request
 API.interceptors.request.use((req) => {
   const token = localStorage.getItem("token");
   if (token) {
@@ -13,8 +12,6 @@ API.interceptors.request.use((req) => {
   return req;
 });
 
-
-// POSTS API
 
 export const getPosts = () => API.get("/posts");
 
@@ -28,9 +25,6 @@ export const deletePost = (postId) =>
 
 export const likePost = (postId) =>
   API.put(`/posts/like/${postId}`);
-
-
-// AUTH API
 
 export const registerUser = (data) =>
   API.post("/auth/register", data);

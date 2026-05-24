@@ -21,7 +21,6 @@ const EditPost = () => {
     isFeatured: false
   });
 
-  // LOAD POST
   useEffect(() => {
     loadPost();
   }, []);
@@ -44,7 +43,6 @@ const EditPost = () => {
     }
   };
 
-  // HANDLE CHANGE
   const handleChange = (e) => {
 
     const { name, value, type, checked } = e.target;
@@ -55,7 +53,6 @@ const EditPost = () => {
     });
   };
 
-  // UPDATE POST
   const updateThisPost = async (e) => {
 
     e.preventDefault();
@@ -71,8 +68,7 @@ const EditPost = () => {
 
       toast.success("Post Updated Successfully");
 
-      // GO BACK TO SPLASH / HOME PAGE
-      navigate("/");
+      window.location.href = "/";
 
     } catch (error) {
 
