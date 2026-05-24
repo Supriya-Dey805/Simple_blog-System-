@@ -213,27 +213,6 @@ Backend runs on:
 http://localhost:5000
 ```
 
----
-
-# 📸 Screenshots
-
-## 🏠 Home Page
-Add screenshot here
-
-## 🔐 Login Page
-Add screenshot here
-
-## ✍️ Create Blog Page
-Add screenshot here
-
-## 👤 Profile Page
-Add screenshot here
-
-## 🔖 Bookmarks Page
-Add screenshot here
-
----
-
 # 🚀 Future Enhancements
 
 - AI-based blog recommendations
