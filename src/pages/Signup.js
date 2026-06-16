@@ -13,7 +13,7 @@ import {
   Input,
   Button,
   Row,
-  Col,
+  Col
 } from "reactstrap";
 
 import Base from "../components/Base";
@@ -21,6 +21,7 @@ import Base from "../components/Base";
 const Signup = () => {
 
   const navigate = useNavigate();
+
   const [popup, setPopup] = useState(false);
 
   const [data, setData] = useState({
@@ -38,16 +39,18 @@ const Signup = () => {
   };
 
   const handleSubmit = async (e) => {
+
     e.preventDefault();
 
     try {
+
       await API.post("/auth/register", data);
 
       setPopup(true);
 
       setTimeout(() => {
         setPopup(false);
-        navigate("/login"); // go to login after signup
+        navigate("/login");
       }, 2000);
 
     } catch (err) {
@@ -57,66 +60,218 @@ const Signup = () => {
 
   return (
     <Base>
-      <div style={{ minHeight: "100vh", background: "linear-gradient(to right, #141e30, #243b55)", paddingTop: "30px", paddingBottom: "30px" }}>
+
+      <div style={styles.wrapper}>
+
         <Container>
-          <Row className="mt-4">
-            <Col sm={{ size: 6, offset: 3 }}>
-              <Card style={{ borderRadius: "20px", overflow: "hidden", boxShadow: "0px 8px 25px rgba(0,0,0,0.4)", background: "rgba(255,255,255,0.1)", backdropFilter: "blur(10px)", color: "white" }}>
-                <CardHeader className="text-center" style={{ fontSize: "28px", fontWeight: "bold", background: "transparent", borderBottom: "1px solid rgba(255,255,255,0.2)" }}>
-                  🚀 Create Your Account
+
+          <Row className="justify-content-center">
+
+            <Col md="6">
+
+              <Card style={styles.card}>
+
+                <CardHeader style={styles.header}>
+                  Create Account
                 </CardHeader>
 
                 <CardBody>
-                  <p className="text-center" style={{ color: "#ddd" }}>Join our community today</p>
+
+                  <p style={styles.subtitle}>
+                    Start your blogging journey today
+                  </p>
 
                   <Form onSubmit={handleSubmit}>
 
                     <FormGroup>
-                      <Label>Username</Label>
-                      <Input type="text" id="username" style={styles.input} onChange={handleChange} required />
+                      <Label style={styles.label}>
+                        Username
+                      </Label>
+                      <Input
+                        type="text"
+                        id="username"
+                        placeholder="Enter username"
+                        style={styles.input}
+                        onChange={handleChange}
+                        required
+                      />
                     </FormGroup>
 
                     <FormGroup>
-                      <Label>Email</Label>
-                      <Input type="email" id="email" style={styles.input} onChange={handleChange} required />
+                      <Label style={styles.label}>
+                        Email
+                      </Label>
+                      <Input
+                        type="email"
+                        id="email"
+                        placeholder="Enter email"
+                        style={styles.input}
+                        onChange={handleChange}
+                        required
+                      />
                     </FormGroup>
 
                     <FormGroup>
-                      <Label>Password</Label>
-                      <Input type="password" id="password" style={styles.input} onChange={handleChange} required />
+                      <Label style={styles.label}>
+                        Password
+                      </Label>
+                      <Input
+                        type="password"
+                        id="password"
+                        placeholder="Enter password"
+                        style={styles.input}
+                        onChange={handleChange}
+                        required
+                      />
                     </FormGroup>
 
                     <FormGroup>
-                      <Label>About</Label>
-                      <Input type="textarea" id="about" style={{ ...styles.input, height: "150px" }} onChange={handleChange} />
+                      <Label style={styles.label}>
+                        About You
+                      </Label>
+                      <Input
+                        type="textarea"
+                        id="about"
+                        placeholder="Tell something about yourself..."
+                        style={styles.textarea}
+                        onChange={handleChange}
+                      />
                     </FormGroup>
 
-                    <Container className="text-center">
-                      <Button color="success" type="submit" style={styles.button}>Register</Button>
-                    </Container>
+                    <Button
+                      type="submit"
+                      style={styles.button}
+                    >
+                      Register
+                    </Button>
 
                   </Form>
 
-                  <p style={{ textAlign: "center", marginTop: "20px" }}>
-                    Already have an account? <Link to="/login">Login</Link>
+                  <p style={styles.loginText}>
+                    Already have an account?
+                    <Link to="/login" style={styles.link}>
+                      Login
+                    </Link>
                   </p>
 
                 </CardBody>
+
               </Card>
+
             </Col>
+
           </Row>
+
         </Container>
 
-        {popup && (<div style={styles.popup}>✅ Registration Successful!</div>)}
+        {
+          popup && (
+            <div style={styles.popup}>
+              Registration Successful
+            </div>
+          )
+        }
+
       </div>
+
     </Base>
   );
 };
 
 const styles = {
-  input: { borderRadius: "10px", padding: "12px", border: "none", marginTop: "5px" },
-  button: { borderRadius: "10px", padding: "10px 25px", fontWeight: "bold" },
-  popup: { position: "fixed", top: "30px", right: "30px", background: "#00c851", color: "white", padding: "15px 25px", borderRadius: "10px", boxShadow: "0px 4px 12px rgba(0,0,0,0.3)", fontWeight: "bold", zIndex: 999 }
+
+  wrapper: {
+    minHeight: "100vh",
+    background:
+      "linear-gradient(135deg, #0f172a, #1e293b, #334155)",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    padding: "30px"
+  },
+
+  card: {
+    borderRadius: "25px",
+    overflow: "hidden",
+    background: "rgba(255,255,255,0.08)",
+    backdropFilter: "blur(20px)",
+    boxShadow: "0px 15px 40px rgba(0,0,0,0.4)",
+    border: "1px solid rgba(255,255,255,0.1)"
+  },
+
+  header: {
+    textAlign: "center",
+    fontSize: "30px",
+    fontWeight: "bold",
+    padding: "25px",
+    color: "white",
+    background: "transparent",
+    borderBottom: "1px solid rgba(255,255,255,0.1)"
+  },
+
+  subtitle: {
+    textAlign: "center",
+    color: "#cbd5e1",
+    marginBottom: "30px"
+  },
+
+  label: {
+    color: "white",
+    fontWeight: "600",
+    marginBottom: "8px"
+  },
+
+  input: {
+    padding: "14px",
+    borderRadius: "12px",
+    border: "none",
+    marginTop: "8px"
+  },
+
+  textarea: {
+    padding: "14px",
+    borderRadius: "12px",
+    border: "none",
+    height: "120px",
+    marginTop: "8px"
+  },
+
+  button: {
+    width: "100%",
+    padding: "14px",
+    border: "none",
+    borderRadius: "12px",
+    background: "linear-gradient(to right, #38bdf8, #6366f1)",
+    color: "white",
+    fontWeight: "bold",
+    fontSize: "17px",
+    marginTop: "20px"
+  },
+
+  loginText: {
+    textAlign: "center",
+    marginTop: "25px",
+    color: "#cbd5e1"
+  },
+
+  link: {
+    marginLeft: "8px",
+    color: "#38bdf8",
+    textDecoration: "none",
+    fontWeight: "bold"
+  },
+
+  popup: {
+    position: "fixed",
+    top: "25px",
+    right: "25px",
+    background: "#22c55e",
+    color: "white",
+    padding: "15px 25px",
+    borderRadius: "12px",
+    fontWeight: "bold",
+    boxShadow: "0px 5px 20px rgba(0,0,0,0.3)"
+  }
 };
 
 export default Signup;

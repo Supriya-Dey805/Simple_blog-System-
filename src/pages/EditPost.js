@@ -1,3 +1,4 @@
+import JoditEditor from "jodit-react";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
@@ -17,8 +18,7 @@ const EditPost = () => {
     category: "",
     tags: "",
     readingTime: "",
-    author: "",
-    isFeatured: false
+    author: ""
   });
 
   useEffect(() => {
@@ -68,7 +68,7 @@ const EditPost = () => {
 
       toast.success("Post Updated Successfully");
 
-      window.location.href = "/";
+      navigate("/");
 
     } catch (error) {
 
@@ -134,15 +134,15 @@ const EditPost = () => {
               style={styles.input}
             />
 
-            <textarea
-              name="content"
-              rows="6"
-              value={post.content}
-              onChange={handleChange}
-              placeholder="Content"
-              required
-              style={styles.textarea}
-            />
+  <JoditEditor
+  value={post.content}
+  onChange={(newContent) =>
+    setPost({
+      ...post,
+      content: newContent
+    })
+  }
+/>
 
             <input
               type="text"
@@ -170,28 +170,6 @@ const EditPost = () => {
               placeholder="Reading Time"
               style={styles.input}
             />
-
-            <label
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: "10px",
-                marginTop: "15px",
-                fontWeight: "bold",
-                color: "#333"
-              }}
-            >
-
-              <input
-                type="checkbox"
-                name="isFeatured"
-                checked={post.isFeatured}
-                onChange={handleChange}
-              />
-
-              Featured Post
-
-            </label>
 
             <button
               type="submit"

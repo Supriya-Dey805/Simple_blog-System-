@@ -37,66 +37,35 @@ function App() {
 
         <Routes>
 
-          <Route
-            path="/"
-            element={<Splash />}
-          />
+  <Route path="/" element={<Splash />} />
 
-          <Route
-            path="/login"
-            element={<Login />}
-          />
+  <Route path="/login" element={<Login />} />
 
-          <Route
-            path="/signup"
-            element={<Signup />}
-          />
+  <Route path="/signup" element={<Signup />} />
 
-          <Route
-            path="/home"
-            element={<Home />}
-          />
+  <Route path="/home" element={<Home />} />
 
-          <Route
-            path="/about"
-            element={<About />}
-          />
+  <Route path="/about" element={<About />} />
 
-          <Route
-            path="/services"
-            element={<Services />}
-          />
+  <Route path="/services" element={<Services />} />
 
-          <Route
-            path="/create"
-            element={<CreatePost />}
-          />
+  <Route path="/create" element={<CreatePost />} />
 
-          <Route
-            path="/edit/:id"
-            element={<EditPost />}
-          />
+  <Route path="/edit/:id" element={<EditPost />} />
 
-          <Route path="/posts/:id" element={<PostDetails />} />
+  <Route path="/posts/:id" element={<PostDetails />} />
 
-          <Route path="/profile" element={<Profile />} />
+  <Route path="/profile" element={<Profile />} />
 
-          <Route path="/bookmarks" element={<Bookmarks />} />
+  <Route path="/bookmarks" element={<Bookmarks />} />
 
-          <Route
-            path="/user"
-            element={<Privateroute />}
-          >
+  <Route path="/user" element={<Privateroute />}>
 
-            <Route
-              path="dashboard"
-              element={<Userdashboard />}
-            />
+    <Route path="dashboard" element={<Userdashboard />} />
 
-          </Route>
+  </Route>
 
-        </Routes>
-
+</Routes>
       </BrowserRouter>
 
     </PostProvider>

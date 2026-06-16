@@ -73,6 +73,19 @@ const Login = () => {
     }
   };
 
+const handleGoogleLogin = () => {
+
+  const demoUser = {
+    name: "Google User",
+    email: "googleuser@gmail.com"
+  };
+
+  localStorage.setItem("isLoggedIn", "true");
+  localStorage.setItem("user", JSON.stringify(demoUser));
+
+  navigate("/");
+};
+
   return (
 
     <Base>
@@ -231,16 +244,6 @@ const Login = () => {
                       style={styles.loginButton}
                     >
                       🚀 Login
-                    </Button>
-
-
-                    <Button
-                      color="light"
-                      className="ms-3"
-                      style={styles.button}
-                      onClick={() => alert("Google Login Coming Soon")}
-                    >
-                      Continue with Google
                     </Button>
 
                   </Form>

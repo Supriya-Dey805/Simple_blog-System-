@@ -2,16 +2,13 @@ import { useEffect, useState } from "react";
 import Base from "../components/Base";
 import PostCard from "../components/PostCard";
 import API from "../services/api";
-import { Navigate } from "react-router-dom";
+import { Navigate, Link } from "react-router-dom";
 
 const Home = () => {
 
   const [posts, setPosts] = useState([]);
-
   const [search, setSearch] = useState("");
-
   const [selectedCategory, setSelectedCategory] = useState("All");
-
   const [loading, setLoading] = useState(true);
 
   const btn = {
@@ -35,6 +32,7 @@ const Home = () => {
     try {
 
       const res = await API.get("/posts");
+
       const publishedPosts = res.data.filter(
         (p) => p.status === "published"
       );
@@ -55,62 +53,73 @@ const Home = () => {
   const isLoggedIn = localStorage.getItem("isLoggedIn");
 
   if (!isLoggedIn) {
-
     return <Navigate to="/login" />;
   }
 
   if (loading) {
-
     return <h2 style={{ textAlign: "center" }}>Loading posts...</h2>;
   }
 
-  if (posts.length === 0) {
-
-    return (
-
-      <div style={{ textAlign: "center", marginTop: "60px" }}>
-
-        <img
-          src="https://cdn-icons-png.flaticon.com/512/6134/6134065.png"
-          width="120"
-        />
-
-        <h2>No posts found</h2>
-
-        <p>Try adjusting search or create a new blog</p>
-
-        <a href="/create" style={btn}>
-          ➕ Create Post
-        </a>
-
-      </div>
-    );
-  }
-
+  // SEARCH + CATEGORY FILTER
   const filteredPosts = posts.filter((post) => {
 
     const title = post.title || "";
-
     const content = post.content || "";
-
     const category = post.category || "";
 
     const matchesSearch =
-
       title.toLowerCase().includes(search.toLowerCase()) ||
-
       content.toLowerCase().includes(search.toLowerCase()) ||
-
       category.toLowerCase().includes(search.toLowerCase());
 
     const matchesCategory =
-
       selectedCategory === "All" ||
-
       category.toLowerCase() === selectedCategory.toLowerCase();
 
     return matchesSearch && matchesCategory;
   });
+
+// FEATURED POSTS (likes >= 10)
+const featuredPosts = filteredPosts.filter(
+  (post) => post.likes >= 10
+);
+
+// REMOVE FEATURED FIRST
+const nonFeaturedPosts = filteredPosts.filter(
+  (post) => post.likes < 10
+);
+
+// TRENDING POSTS (top 3 only from non-featured)
+const trendingPosts = filteredPosts
+  .filter((post) => post.likes > 0 && post.likes < 10)
+  .sort((a, b) => b.likes - a.likes)
+  .slice(0, 3);
+
+// TRENDING IDS
+const trendingIds = trendingPosts.map(
+  (post) => post._id
+);
+
+// LATEST POSTS (remaining only)
+const latestPosts = filteredPosts.filter(
+  (post) =>
+    post.likes === 0 &&
+    !trendingIds.includes(post._id)
+);
+
+  if (posts.length === 0) {
+    return (
+      <Base>
+        <div style={{ textAlign: "center", marginTop: "100px" }}>
+          <h1>No posts found 😢</h1>
+          <p>Create your first blog now!</p>
+          <Link to="/create" style={btn}>
+            Create Post
+          </Link>
+        </div>
+      </Base>
+    );
+  }
 
   return (
 
@@ -241,53 +250,45 @@ const Home = () => {
 
       </div>
 
-      <div style={{ marginBottom: "40px" }}>
+<div style={{ marginBottom: "40px" }}>
 
-        <h2
-          style={{
-            marginBottom: "20px",
-            color: "#ff9800",
-            fontWeight: "bold"
-          }}
-        >
-          ⭐ Featured Posts
-        </h2>
+  <h2
+    style={{
+      marginBottom: "20px",
+      color: "#ff9800",
+      fontWeight: "bold"
+    }}
+  >
+    ⭐ Featured Posts
+  </h2>
 
-        {
-          filteredPosts
-            .filter((post) => post.isFeatured)
-            .map((post) => (
-              <PostCard key={post._id} post={post} />
-            ))
-        }
+  {
+    featuredPosts.map((post) => (
+      <PostCard key={post._id} post={post} />
+    ))
+  }
 
-      </div>
+</div>
 
-      <div style={{ marginBottom: "40px" }}>
+ <div style={{ marginBottom: "40px" }}>
 
-        <h2
-          style={{
-            marginBottom: "20px",
-            color: "#ff5722",
-            fontWeight: "bold"
-          }}
-        >
-          🔥 Trending Blogs
-        </h2>
+  <h2
+    style={{
+      marginBottom: "20px",
+      color: "#ff5722",
+      fontWeight: "bold"
+    }}
+  >
+    🔥 Trending Blogs
+  </h2>
 
-        {
-          [...filteredPosts]
-            .sort((a, b) => b.likes - a.likes)
-            .slice(0, 3)
-            .map((post) => (
-              <PostCard
-                key={post._id}
-                post={post}
-              />
-            ))
-        }
+  {
+    trendingPosts.map((post) => (
+      <PostCard key={post._id} post={post} />
+    ))
+  }
 
-      </div>
+ </div>
 
       <div>
 
@@ -301,7 +302,7 @@ const Home = () => {
         </h2>
 
         {
-          filteredPosts.map((post) => (
+          latestPosts.map((post) => (
             <PostCard
               key={post._id}
               post={post}

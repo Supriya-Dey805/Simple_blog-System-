@@ -4,23 +4,25 @@ import { Link } from "react-router-dom";
 
 import { likePost, deletePost } from "../services/api";
 
+import API from "../services/api";
+
 const PostCard = ({ post }) => {
 
-  const handleLike = async () => {
+const loggedInUser = localStorage.getItem("username");
+const handleLike = async () => {
 
-    try {
+  try {
 
-      await likePost(post._id);
+    await API.put(`/posts/like/${post._id}`);
 
-      window.location.reload();
+    window.location.reload();
 
-    } catch (err) {
+  } catch (error) {
 
-      console.log(err);
+    console.log(error);
 
-    }
-  };
-
+  }
+};
   const handleDelete = async () => {
 
     try {
@@ -70,13 +72,13 @@ const PostCard = ({ post }) => {
       style={{
         borderRadius: "18px",
 
-        border: post.isFeatured
-          ? "2px solid gold"
-          : "1px solid #ddd",
+        border: post.likes >= 10
+  ? "2px solid gold"
+  : "1px solid #ddd",
 
-        background: post.isFeatured
-          ? "linear-gradient(to right, #fff8dc, #ffffff)"
-          : "#fff",
+        background: post.likes >= 10
+  ? "linear-gradient(to right, #fff8dc, #ffffff)"
+  : "#fff",
 
         transition: "0.3s",
 
@@ -86,7 +88,7 @@ const PostCard = ({ post }) => {
 
       <CardBody>
 
-        {post.isFeatured && (
+        {post.likes >=10 && (
 
           <Badge
             color="warning"
@@ -158,14 +160,15 @@ const PostCard = ({ post }) => {
           ✍ By {post.author}
         </p>
 
-        <p
-          style={{
-            color: "#444",
-            lineHeight: "28px"
-          }}
-        >
-          {post.content.substring(0, 150)}...
-        </p>
+        <div
+  style={{
+    color: "#444",
+    lineHeight: "28px"
+  }}
+  dangerouslySetInnerHTML={{
+    __html: post.content.substring(0, 150) + "..."
+  }}
+></div>
 
         <Link
           to={`/posts/${post._id}`}
@@ -231,29 +234,34 @@ const PostCard = ({ post }) => {
 
         <div style={{ marginTop: "20px" }}>
 
-          <Button
-            color="danger"
-            onClick={handleLike}
-            className="me-2"
-          >
-            ❤️ Like
-          </Button>
+          <button onClick={handleLike}>
+          
+          ❤️ {post.likes}
+         </button>
 
-          <Button
-            color="primary"
-            tag={Link}
-            to={`/edit/${post._id}`}
-            className="me-2"
-          >
-            ✏ Edit
-          </Button>
+         {
+  loggedInUser === post.author && (
 
-          <Button
-            color="dark"
-            onClick={handleDelete}
-          >
-            🗑 Delete
-          </Button>
+    <>
+      <Button
+        color="primary"
+        tag={Link}
+        to={`/edit/${post._id}`}
+        className="me-2"
+      >
+        ✏ Edit
+      </Button>
+
+      <Button
+        color="dark"
+        onClick={handleDelete}
+      >
+        🗑 Delete
+      </Button>
+    </>
+
+  )
+}
           <Button
             color="warning"
             onClick={() => toggleBookmark(post)}

@@ -1,5 +1,7 @@
+import JoditEditor from "jodit-react";
 import React, { useState } from "react";
 import { toast } from "react-toastify";
+
 
 import API from "../services/api";
 
@@ -14,7 +16,8 @@ const CreatePost = () => {
     tags: "",
     readingTime: "",
     author: "",
-    isFeatured: false,
+    image: "",
+    status: "published"
   });
 
   const handleChange = (e) => {
@@ -27,16 +30,35 @@ const CreatePost = () => {
     });
   };
 
+  const handleFileChange = (e) => {
+
+  const file = e.target.files[0];
+
+  setFormData({
+    ...formData,
+    image: file
+  });
+};
+
   const handleSubmit = async (e) => {
 
     e.preventDefault();
 
     try {
 
-      const postData = {
-        ...formData,
-        tags: formData.tags.split(","),
-      };
+      const postData = new FormData();
+
+postData.append("title", formData.title);
+postData.append("content", formData.content);
+postData.append("category", formData.category);
+postData.append("author", formData.author);
+postData.append("readingTime", formData.readingTime);
+postData.append("status", formData.status);
+postData.append("image", formData.image);
+
+formData.tags.split(",").forEach((tag) => {
+  postData.append("tags", tag.trim());
+});
 
       await API.post("/posts", postData);
 
@@ -116,33 +138,48 @@ const CreatePost = () => {
               style={styles.input}
             />
 
-            <textarea
-              name="content"
-              placeholder="Write content..."
-              rows="6"
-              value={formData.content}
-              onChange={handleChange}
-              required
-              style={styles.textarea}
-            />
+            <JoditEditor
+  value={formData.content}
+  onChange={(newContent) =>
+    setFormData({
+      ...formData,
+      content: newContent
+    })
+  }
+/>
+
+           <select
+  name="category"
+  value={formData.category}
+  onChange={handleChange}
+  style={styles.input}
+  required
+>
+  <option value="">Select Category</option>
+
+  <option value="Technology">Technology</option>
+  <option value="Artificial Intelligence">Artificial Intelligence</option>
+  <option value="Programming">Programming</option>
+  <option value="Cyber Security">Cyber Security</option>
+  <option value="Cloud Computing">Cloud Computing</option>
+  <option value="Travel">Travel</option>
+  <option value="Lifestyle">Lifestyle</option>
+  <option value="Fitness">Fitness</option>
+  <option value="Education">Education</option>
+  <option value="Study">Study</option>
+  <option value="Business">Business</option>
+  <option value="Finance">Finance</option>
+  <option value="Sports">Sports</option>
+  <option value="Food">Food</option>
+</select>
 
             <input
-              type="text"
-              name="category"
-              placeholder="Category"
-              value={formData.category}
-              onChange={handleChange}
-              style={styles.input}
-            />
-
-            <input
-              type="text"
-              name="image"
-              placeholder="Paste Image URL"
-              value={formData.image}
-              onChange={handleChange}
-              style={styles.input}
-            />
+  type="file"
+  name="image"
+  accept="image/*"
+  onChange={handleFileChange}
+  style={styles.input}
+/>
 
             <input
               type="text"
@@ -170,28 +207,6 @@ const CreatePost = () => {
               onChange={handleChange}
               style={styles.input}
             />
-
-            <label
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: "10px",
-                marginTop: "15px",
-                fontWeight: "bold",
-                color: "#333"
-              }}
-            >
-
-              <input
-                type="checkbox"
-                name="isFeatured"
-                checked={formData.isFeatured}
-                onChange={handleChange}
-              />
-
-              Featured Post
-
-            </label>
 
             <button
               type="submit"

@@ -7,13 +7,21 @@ const Splash = () => {
 
   useEffect(() => {
 
-    setTimeout(() => {
+    const isLoggedIn = localStorage.getItem("isLoggedIn");
 
-      navigate("/login");
+    const timer = setTimeout(() => {
 
-    }, 3000);
+      if (isLoggedIn) {
+        navigate("/home");
+      } else {
+        navigate("/login");
+      }
 
-  }, []);
+    }, 2500);
+
+    return () => clearTimeout(timer);
+
+  }, [navigate]);
 
   return (
 

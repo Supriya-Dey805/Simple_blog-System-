@@ -112,9 +112,17 @@ const PostDetails = () => {
 
         <hr />
 
-        <p style={{ lineHeight: "38px", fontSize: "20px", color: "#333", marginTop: "30px" }}>
-          {post.content}
-        </p>
+        <div
+  style={{
+    lineHeight: "38px",
+    fontSize: "20px",
+    color: "#333",
+    marginTop: "30px"
+  }}
+  dangerouslySetInnerHTML={{
+    __html: post.content
+  }}
+></div>
 
         <div style={{ marginTop: "40px" }}>
           {post.tags &&
@@ -138,20 +146,59 @@ const PostDetails = () => {
             🔥 Related Posts
           </h2>
 
-          {relatedPosts.map((item) => (
-            <div
-              key={item._id}
-              style={{
-                padding: "18px",
-                border: "1px solid #ddd",
-                borderRadius: "12px",
-                marginBottom: "15px"
-              }}
-            >
-              <h4>{item.title}</h4>
-              <p>{item.category}</p>
-            </div>
-          ))}
+          {relatedPosts.length > 0 ? (
+
+  relatedPosts.map((item) => (
+
+    <div
+      key={item._id}
+      style={{
+        padding: "18px",
+        border: "1px solid #ddd",
+        borderRadius: "12px",
+        marginBottom: "15px",
+        transition: "0.3s",
+        cursor: "pointer"
+      }}
+    >
+
+      <a
+        href={`/posts/${item._id}`}
+        style={{
+          textDecoration: "none",
+          color: "black"
+        }}
+      >
+
+        <h4>{item.title}</h4>
+
+        <p
+          style={{
+            color: "#666"
+          }}
+        >
+          {item.category}
+        </p>
+
+        <p
+          style={{
+            color: "#444"
+          }}
+        >
+          ✍ {item.author}
+        </p>
+
+      </a>
+
+    </div>
+
+  ))
+
+) : (
+
+  <p>No related posts found.</p>
+
+)}
         </div>
 
         <div style={{ marginTop: "20px" }}>

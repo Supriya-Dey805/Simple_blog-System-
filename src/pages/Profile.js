@@ -6,8 +6,19 @@ const Profile = () => {
 
   const [userPosts, setUserPosts] = useState([]);
 
-  const username =
-    localStorage.getItem("username") || "Guest User";
+  const [username, setUsername] = useState(
+    localStorage.getItem("username") || "Guest User"
+  );
+
+  const [email, setEmail] = useState(
+    localStorage.getItem("email") || ""
+  );
+
+  const [bio, setBio] = useState(
+    localStorage.getItem("bio") || "Full Stack Blog Developer 🚀"
+  );
+
+  const [isEditing, setIsEditing] = useState(false);
 
   const [profileImage, setProfileImage] = useState(
     localStorage.getItem("profileImage") ||
@@ -37,18 +48,15 @@ const Profile = () => {
     }
   };
 
-
   const totalPosts = userPosts.length;
-
 
   const totalLikes = userPosts.reduce(
     (sum, post) => sum + post.likes,
     0
   );
 
-
   const featuredPosts = userPosts.filter(
-    (post) => post.isFeatured
+    (post) => post.likes >= 10
   ).length;
 
   const handleProfileImage = (e) => {
@@ -70,6 +78,17 @@ const Profile = () => {
     if (file) {
       reader.readAsDataURL(file);
     }
+  };
+
+  const saveProfile = () => {
+
+    localStorage.setItem("username", username);
+    localStorage.setItem("email", email);
+    localStorage.setItem("bio", bio);
+
+    setIsEditing(false);
+
+    alert("Profile updated successfully");
   };
 
   return (
@@ -130,33 +149,73 @@ const Profile = () => {
             />
           </label>
 
+          {
+            isEditing ? (
+              <>
 
+                <input
+                  type="text"
+                  value={username}
+                  onChange={(e) => setUsername(e.target.value)}
+                  style={styles.input}
+                />
 
-          <h1
-            style={{
-              marginTop: "20px",
-              fontWeight: "bold"
-            }}
-          >
-            {username}
-          </h1>
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  style={styles.input}
+                />
 
-          <p>
-            Full Stack Blog Developer 🚀
-          </p>
+                <textarea
+                  value={bio}
+                  onChange={(e) => setBio(e.target.value)}
+                  style={styles.textarea}
+                />
 
-          <p
-            style={{
-              color: "#ddd",
-              marginTop: "10px"
-            }}
-          >
-            📧 {localStorage.getItem("email")}
-          </p>
+                <button
+                  onClick={saveProfile}
+                  style={styles.button}
+                >
+                  Save Profile
+                </button>
+
+              </>
+            ) : (
+              <>
+
+                <h1
+                  style={{
+                    marginTop: "20px",
+                    fontWeight: "bold"
+                  }}
+                >
+                  {username}
+                </h1>
+
+                <p>{bio}</p>
+
+                <p
+                  style={{
+                    color: "#ddd",
+                    marginTop: "10px"
+                  }}
+                >
+                  📧 {email}
+                </p>
+
+                <button
+                  onClick={() => setIsEditing(true)}
+                  style={styles.button}
+                >
+                  ✏ Edit Profile
+                </button>
+
+              </>
+            )
+          }
 
         </div>
-
-        {/* STATS */}
 
         <div
           style={{
@@ -193,16 +252,39 @@ const Profile = () => {
 const styles = {
 
   card: {
-
     background: "#f4f4f4",
-
     padding: "30px",
-
     borderRadius: "15px",
-
     textAlign: "center",
-
     boxShadow: "0px 4px 12px rgba(0,0,0,0.1)"
+  },
+
+  input: {
+    width: "100%",
+    padding: "12px",
+    marginTop: "15px",
+    borderRadius: "10px",
+    border: "1px solid #ccc"
+  },
+
+  textarea: {
+    width: "100%",
+    padding: "12px",
+    marginTop: "15px",
+    borderRadius: "10px",
+    border: "1px solid #ccc",
+    minHeight: "100px"
+  },
+
+  button: {
+    marginTop: "20px",
+    padding: "12px 20px",
+    border: "none",
+    borderRadius: "10px",
+    background: "#00d4ff",
+    color: "black",
+    fontWeight: "bold",
+    cursor: "pointer"
   }
 };
 

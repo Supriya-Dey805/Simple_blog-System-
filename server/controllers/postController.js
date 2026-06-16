@@ -4,7 +4,10 @@ exports.createPost = async (req, res) => {
 
   try {
 
-    const post = await Post.create(req.body);
+    const post = await Post.create({
+      ...req.body,
+      image: req.file ? req.file.path : ""
+    });
 
     res.status(201).json(post);
 
@@ -61,7 +64,7 @@ exports.updatePost = async (req, res) => {
       { new: true }
     );
 
-    res.status(200).json(updatedPost);
+    res.json(updatedPost);
 
   } catch (error) {
 
@@ -71,7 +74,6 @@ exports.updatePost = async (req, res) => {
 
   }
 };
-
 exports.deletePost = async (req, res) => {
 
   try {
