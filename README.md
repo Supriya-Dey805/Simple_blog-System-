@@ -242,6 +242,5 @@ The project highlights practical implementation of full-stack web development co
 # 👨‍💻 Developed By
 
 - Supriya
-- YashRaj
 
 ### Full Stack MERN Developers 🚀
