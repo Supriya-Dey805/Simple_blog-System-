@@ -7,16 +7,6 @@ It is designed to provide a smooth blogging experience with advanced features li
 
 ---
 
-# 🌐 Live Demo
-
-### Frontend
-https://your-frontend-link.vercel.app
-
-### Backend API
-https://your-backend-link.onrender.com
-
----
-
 # 📌 Features
 
 ## 🔐 Authentication System
